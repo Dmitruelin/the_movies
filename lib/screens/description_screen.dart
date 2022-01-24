@@ -1,28 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:the_movies/bloc/actors/actors_cubit.dart';
+import 'package:the_movies/models/films.dart';
+import 'package:the_movies/screens/actors_screen.dart';
 import 'package:the_movies/utils/credentials.dart';
 import 'package:the_movies/utils/modified_text.dart';
-import 'package:tmdb_api/tmdb_api.dart';
 
 class Description extends StatelessWidget {
-  final String name, launchOn, description, bannerPath, posterPath;
-  final int movieId;
+  final Films film;
 
   const Description({
     Key? key,
-    required this.name,
-    required this.launchOn,
-    required this.description,
-    required this.bannerPath,
-    required this.posterPath,
-    required this.movieId,
+    required this.film,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TMDB tmdb = TMDB(ApiKeys(apiKey, readToken));
-    Future<List> actorsListFuture =
-        tmdb.v3.movies.getCredits(movieId).then((value) => value['cast']);
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Details of $film'),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -35,7 +33,7 @@ class Description extends StatelessWidget {
                   child: SizedBox(
                     height: 350,
                     width: MediaQuery.of(context).size.width,
-                    child: Image.network(baseUrl + bannerPath),
+                    child: Image.network(baseUrl + film.bannerPath!),
                   ),
                 ),
                 Positioned(
@@ -43,13 +41,13 @@ class Description extends StatelessWidget {
                     bottom: 0,
                     child: SizedBox(
                       height: 150,
-                      child: Image.network(baseUrl + posterPath),
+                      child: Image.network(baseUrl + film.posterPath!),
                     )),
                 Positioned(
                   child: SizedBox(
                     width: 250,
                     child: ModifiedText(
-                      text: 'Title: ' + name,
+                      text: 'Title: ' + film.name!,
                       size: 18,
                     ),
                   ),
@@ -60,7 +58,7 @@ class Description extends StatelessWidget {
                   child: SizedBox(
                     width: 250,
                     child: ModifiedText(
-                      text: 'Starts on: ' + launchOn,
+                      text: 'Starts on: ' + film.launchOn!,
                       size: 18,
                     ),
                   ),
@@ -74,43 +72,21 @@ class Description extends StatelessWidget {
               size: 24,
               color: Colors.cyan,
             ),
-            ModifiedText(text: description),
+            ModifiedText(text: film.description!),
             const SizedBox(
               height: 10,
             ),
-            SizedBox(
-              height: 200,
-              width: MediaQuery.of(context).size.width,
-              child: FutureBuilder<List>(
-                  future: actorsListFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState != ConnectionState.done) {
-                      return const Center(child:  CircularProgressIndicator());
-                    }
-                    if (snapshot.hasError) {
-                      // return: show error widget
-                    }
-                    List actors = snapshot.data ?? [];
-                    return ListView.builder(
-                        // scrollDirection: Axis.horizontal,
-                        itemCount: actors.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                    baseUrl + actors[index]['profile_path']),
-                              ),
-                              trailing: Icon(actors[index]['gender'] == 2
-                                  ? Icons.male
-                                  : Icons.female),
-                              title: Text(actors[index]['name']),
-                              onTap: () {},
-                            ),
-                          );
-                        });
-                  }),
-            ),
+            ElevatedButton(
+                child: const Text('Actors list'),
+                onPressed: () {
+                  film.isActorsNeed = !film.isActorsNeed;
+                  BlocProvider.of<ActorsCubit>(context)
+                      .getActorsList(film.movieId!);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ActorsScreen()));
+                }),
           ],
         ),
       ),

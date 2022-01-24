@@ -1,11 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:the_movies/utils/credentials.dart';
 import 'package:the_movies/utils/modified_text.dart';
 import 'package:the_movies/widgets/films_list.dart';
 import 'package:the_movies/widgets/popular_films.dart';
-import 'package:tmdb_api/tmdb_api.dart';
 
 class StartPage extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -17,8 +15,6 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
-  List nowPlayingMovies = [];
-  List popularMovies = [];
 
   TextEditingController searchController = TextEditingController();
 
@@ -32,7 +28,6 @@ class _StartPageState extends State<StartPage> {
 
   @override
   void initState() {
-    loadingMovies();
     super.initState();
   }
 
@@ -40,16 +35,6 @@ class _StartPageState extends State<StartPage> {
   void dispose() {
     searchController.dispose();
     super.dispose();
-  }
-
-  loadingMovies() async {
-    TMDB tmdbCustomLogs = TMDB(ApiKeys(apiKey, readToken));
-    Map nowPlayingMoviesResult = await tmdbCustomLogs.v3.movies.getNowPlaying();
-    Map popularMoviesResult = await tmdbCustomLogs.v3.movies.getTopRated();
-    setState(() {
-      nowPlayingMovies = nowPlayingMoviesResult['results'];
-      popularMovies = popularMoviesResult['results'];
-    });
   }
 
   @override
@@ -107,15 +92,11 @@ class _StartPageState extends State<StartPage> {
                 const SizedBox(
                   height: 10,
                 ),
-                FilmsList(
-                  nowPlayingMovies: nowPlayingMovies,
-                ),
+                const FilmsList(),
                 const SizedBox(
                   height: 10,
                 ),
-                PopularFilms(
-                  popularMovies: popularMovies,
-                ),
+                const PopularFilms(),
                 const SizedBox(
                   height: 10,
                 ),

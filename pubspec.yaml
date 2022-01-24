@@ -38,7 +38,8 @@ dependencies:
   equatable: ^2.0.3
   tmdb_api:
   google_fonts:
-  freezed: 
+  freezed:
+  http:
 
 dev_dependencies:
   flutter_test:
