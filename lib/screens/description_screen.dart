@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:the_movies/bloc/actors/actors_cubit.dart';
+import 'package:the_movies/bloc/actors/actors_list_cubit.dart';
 import 'package:the_movies/models/films.dart';
-import 'package:the_movies/screens/actors_screen.dart';
+import 'package:the_movies/navigation/navigation_cubit.dart';
 import 'package:the_movies/utils/credentials.dart';
 import 'package:the_movies/utils/modified_text.dart';
 
@@ -18,22 +18,27 @@ class Description extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Details of $film'),
+        title: Text('Details of ${film.name}'),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Stack(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: Stack(
               children: [
                 Positioned(
                   child: SizedBox(
-                    height: 350,
+                    height: 300,
                     width: MediaQuery.of(context).size.width,
-                    child: Image.network(baseUrl + film.bannerPath!),
+                  ),
+                ),
+                Positioned(
+                  child: SizedBox(
+                    height: 221,
+                    width: MediaQuery.of(context).size.width,
+                    child: Image.network(baseUrlForImages + film.bannerPath!),
                   ),
                 ),
                 Positioned(
@@ -41,7 +46,10 @@ class Description extends StatelessWidget {
                     bottom: 0,
                     child: SizedBox(
                       height: 150,
-                      child: Image.network(baseUrl + film.posterPath!),
+                      child: Hero(
+                          tag: 'poster-image',
+                          child: Image.network(
+                              baseUrlForImages + film.posterPath!)),
                     )),
                 Positioned(
                   child: SizedBox(
@@ -51,7 +59,7 @@ class Description extends StatelessWidget {
                       size: 18,
                     ),
                   ),
-                  bottom: 25,
+                  bottom: 35,
                   right: 10,
                 ),
                 Positioned(
@@ -62,33 +70,45 @@ class Description extends StatelessWidget {
                       size: 18,
                     ),
                   ),
-                  bottom: 6,
+                  bottom: 10,
                   right: 10,
                 ),
               ],
             ),
-            const ModifiedText(
-              text: 'Overview',
-              size: 24,
-              color: Colors.cyan,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                const ModifiedText(
+                  text: 'Overview',
+                  size: 24,
+                  color: Colors.cyan,
+                ),
+                ModifiedText(
+                  text: film.description!,
+                  size: 16,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                    child: const ModifiedText(
+                      text: 'Actors list',
+                      size: 16,
+                    ),
+                    onPressed: () {
+                      context
+                          .read<ActorsListCubit>()
+                          .getActorsList(film.movieId!);
+                      context
+                          .read<NavigationCubit>()
+                          .goToActorsPage(movieId: film.movieId!);
+                    }),
+              ],
             ),
-            ModifiedText(text: film.description!),
-            const SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(
-                child: const Text('Actors list'),
-                onPressed: () {
-                  film.isActorsNeed = !film.isActorsNeed;
-                  BlocProvider.of<ActorsCubit>(context)
-                      .getActorsList(film.movieId!);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ActorsScreen()));
-                }),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
