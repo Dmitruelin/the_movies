@@ -1,7 +1,6 @@
 class Films {
   final String? name, description, launchOn, bannerPath, posterPath;
   final int? movieId;
-  bool isActorsNeed = false;
 
   Films({
     this.movieId,
