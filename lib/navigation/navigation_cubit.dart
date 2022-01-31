@@ -12,7 +12,8 @@ class NavigationCubit extends Cubit<NavigationState> {
   void goToDescriptionPage(Films film) =>
       emit(DescriptionPageState(film: film));
 
-  void goToActorsDetailsPage() => emit(const ActorDetailsPageState());
+  void goToActorsDetailsPage({required int actorId}) =>
+      emit(ActorDetailsPageState(actorId: actorId));
 
   void goToActorsPage({required int movieId}) =>
       emit(ActorsListPageState(movieId: movieId));
@@ -21,7 +22,7 @@ class NavigationCubit extends Cubit<NavigationState> {
 
   void popExtra() {
     if (state is ActorDetailsPageState) {
-      goToActorsDetailsPage();
+      goToActorsDetailsPage(actorId: state.props[0] as int);
     } else if (state is DescriptionPageState) {
       goToDescriptionPage(state.props[0] as Films);
     } else if (state is ActorsListPageState) {

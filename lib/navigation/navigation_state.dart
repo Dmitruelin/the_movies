@@ -24,7 +24,8 @@ class DescriptionPageState extends NavigationState {
 }
 
 class ActorDetailsPageState extends NavigationState {
-  const ActorDetailsPageState();
+  final int actorId;
+  const ActorDetailsPageState({required this.actorId});
 
   @override
   List<Object?> get props => [];

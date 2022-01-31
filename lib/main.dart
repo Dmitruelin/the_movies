@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:the_movies/bloc/actor_info/actor_info_cubit.dart';
 import 'package:the_movies/bloc/actors/actors_list_cubit.dart';
 import 'package:the_movies/bloc/now_playing/get_films_cubit.dart';
 import 'package:the_movies/navigation/navigation_cubit.dart';
 import 'package:the_movies/navigation/root_router_delegate.dart';
 import 'package:the_movies/theme/theme_cubit.dart';
+import 'package:the_movies/utils/data_service.dart';
 import 'package:the_movies/utils/data_service_implementation.dart';
 
+GetIt getIt = GetIt.instance;
+
 void main() {
+  getIt.registerSingleton<DataService>(DataServiceImplementation(),
+      signalsReady: true);
   runApp(const MyApp());
 }
 
