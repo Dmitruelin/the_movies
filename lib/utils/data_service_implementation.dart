@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:the_movies/main.dart';
 import 'package:the_movies/models/actor.dart';
-import 'package:the_movies/models/films.dart';
+import 'package:the_movies/models/film.dart';
+import 'package:the_movies/models/film_dao.dart';
 import 'package:the_movies/utils/data_service.dart';
 
 import 'credentials.dart';
@@ -26,7 +28,7 @@ class DataServiceImplementation implements DataService {
   }
 
   @override
-  Future<List<Films>> getNowPlayingFilms() async {
+  Future<List<Film>> getNowPlayingFilms() async {
     final uri = Uri.https(
         'api.themoviedb.org', '/3/movie/now_playing', queryParameters);
     final response = await http.get(uri);
@@ -35,14 +37,25 @@ class DataServiceImplementation implements DataService {
       throw Exception('Failed to connect API');
     }
 
-    final List<Films> filmsList = List<Films>.from(
-            jsonDecode(response.body)['results'].map((e) => Films.fromJson(e)))
+    final List<Film> filmsList = List<Film>.from(
+            jsonDecode(response.body)['results'].map((e) => Film.fromJson(e)))
         .toList();
+
+    final dao = getIt.get<FilmDao>();
+
+    for (int i = 0; i < filmsList.length; i++) {
+      dao.deleteFilm(filmsList[i]);
+    }
+
+    for (int i = 0; i < filmsList.length; i++) {
+      dao.insertFilm(filmsList[i]);
+    }
+
     return filmsList;
   }
 
   @override
-  Future<List<Films>> getPopularFilms() async {
+  Future<List<Film>> getPopularFilms() async {
     final uri =
         Uri.https('api.themoviedb.org', '/3/movie/popular', queryParameters);
     final response = await http.get(uri);
@@ -51,8 +64,8 @@ class DataServiceImplementation implements DataService {
       throw Exception('Failed to connect API');
     }
 
-    final List<Films> filmsList = List<Films>.from(
-            jsonDecode(response.body)['results'].map((e) => Films.fromJson(e)))
+    final List<Film> filmsList = List<Film>.from(
+            jsonDecode(response.body)['results'].map((e) => Film.fromJson(e)))
         .toList();
     return filmsList;
   }

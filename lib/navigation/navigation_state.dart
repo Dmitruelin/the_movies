@@ -15,7 +15,7 @@ class StartPageState extends NavigationState {
 }
 
 class DescriptionPageState extends NavigationState {
-  final Films film;
+  final Film film;
 
   const DescriptionPageState({required this.film});
 

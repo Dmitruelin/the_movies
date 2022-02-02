@@ -1,31 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:the_movies/models/films.dart';
+import 'package:the_movies/models/film.dart';
 import 'package:the_movies/navigation/navigation_cubit.dart';
 import 'package:the_movies/screens/actor_detail_screen.dart';
 import 'package:the_movies/screens/actors_screen.dart';
 import 'package:the_movies/screens/description_screen.dart';
-import 'package:the_movies/screens/main_screen.dart';
+import 'package:the_movies/screens/start_screen.dart';
 
 class RootRouterDelegate extends RouterDelegate<NavigationState> {
   final GlobalKey<NavigatorState> _navigatorKey;
   final NavigationCubit _navigationCubit;
 
   RootRouterDelegate(
-      GlobalKey<NavigatorState> navigatorKey, NavigationCubit navigationCubit)
-      : _navigatorKey = navigatorKey,
+    GlobalKey<NavigatorState> navigatorKey,
+    NavigationCubit navigationCubit,
+  )   : _navigatorKey = navigatorKey,
         _navigationCubit = navigationCubit;
 
   GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
 
   @override
-  Widget build(BuildContext context) => Navigator(
-        key: navigatorKey,
-        pages: List.from([
-          _materialPage(valueKey: "Start Page", child: const StartPage()),
-          ..._extraPages,
-        ]),
-        onPopPage: _onPopPage,
-      );
+  Widget build(BuildContext context) {
+    return Navigator(
+      key: navigatorKey,
+      pages: List.from([
+        _materialPage(valueKey: "Start Page", child: const StartScreen()),
+        ..._extraPages,
+      ]),
+      onPopPage: _onPopPage,
+    );
+  }
 
   bool _onPopPage(Route<dynamic> route, dynamic result) {
     _navigationCubit.clearState();
@@ -48,12 +51,12 @@ class RootRouterDelegate extends RouterDelegate<NavigationState> {
 
   List<Page> get _extraPages {
     if (_navigationCubit.state is DescriptionPageState) {
-      Films film;
+      Film film;
       film = (_navigationCubit.state as DescriptionPageState).film;
       return [
         _materialPage(
           valueKey: "Description Page",
-          child: Description(film: film),
+          child: DescriptionScreen(film: film),
         ),
       ];
     }
@@ -62,7 +65,7 @@ class RootRouterDelegate extends RouterDelegate<NavigationState> {
       return [
         _materialPage(
           valueKey: "Actor's Profile Page",
-          child: const ActorDetailsPage(),
+          child: const ActorDetailsScreen(),
         ),
       ];
     }

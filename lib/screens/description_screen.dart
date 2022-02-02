@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_movies/bloc/actors/actors_list_cubit.dart';
-import 'package:the_movies/models/films.dart';
+import 'package:the_movies/models/film.dart';
 import 'package:the_movies/navigation/navigation_cubit.dart';
 import 'package:the_movies/utils/credentials.dart';
 import 'package:the_movies/utils/modified_text.dart';
 
-class Description extends StatelessWidget {
-  final Films film;
+class DescriptionScreen extends StatelessWidget {
+  final Film film;
 
-  const Description({
+  const DescriptionScreen({
     Key? key,
     required this.film,
   }) : super(key: key);
@@ -100,10 +100,10 @@ class Description extends StatelessWidget {
                     onPressed: () {
                       context
                           .read<ActorsListCubit>()
-                          .getActorsList(film.movieId!);
+                          .getActorsList(film.movieId);
                       context
                           .read<NavigationCubit>()
-                          .goToActorsPage(movieId: film.movieId!);
+                          .goToActorsPage(movieId: film.movieId);
                     }),
               ],
             ),

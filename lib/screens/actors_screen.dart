@@ -38,7 +38,8 @@ class ActorsScreen extends StatelessWidget {
                               .read<ActorInfoCubit>()
                               .getActorPersonalInfo(actors[index]['id']);
                           Navigator.of(context).push(MaterialPageRoute<void>(
-                              builder: (context) => const ActorDetailsPage()));
+                              builder: (context) =>
+                                  const ActorDetailsScreen()));
                         }
                       : () {},
                   height: 120,

@@ -8,8 +8,8 @@ import 'package:the_movies/utils/credentials.dart';
 import 'package:the_movies/utils/modified_text.dart';
 import 'package:the_movies/utils/photo_hero.dart';
 
-class ActorDetailsPage extends StatelessWidget {
-  const ActorDetailsPage({Key? key}) : super(key: key);
+class ActorDetailsScreen extends StatelessWidget {
+  const ActorDetailsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
