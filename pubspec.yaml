@@ -43,7 +43,7 @@ dependencies:
   floor: ^1.2.0
   get_it: any
   json_annotation: any
-  provider: ^6.0.2
+
 
 
 dev_dependencies:

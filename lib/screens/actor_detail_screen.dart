@@ -31,7 +31,6 @@ class ActorDetailsScreen extends StatelessWidget {
                 height: 300,
                 child: PhotoHero(
                   onTap: () => Navigator.pop(context),
-                  height: 250,
                   width: MediaQuery.of(context).size.width,
                   photo: baseUrlForImages + actor.profilePath,
                 ),
@@ -56,20 +55,8 @@ class ActorDetailsScreen extends StatelessWidget {
                 TextSpan(
                   text: 'Biography : ',
                   style: GoogleFonts.breeSerif(
-                    fontSize: 19,
+                    fontSize: ModifiedTextFontSize.medium,
                     height: 0.9,
-                    shadows: <Shadow>[
-                      const Shadow(
-                        offset: Offset(1.0, 1.0),
-                        blurRadius: 3.0,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                      const Shadow(
-                        offset: Offset(1.0, 1.0),
-                        blurRadius: 8.0,
-                        color: Color.fromARGB(125, 0, 0, 255),
-                      ),
-                    ],
                   ),
                 ),
                 TextSpan(

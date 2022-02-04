@@ -2,7 +2,7 @@ import 'package:floor/floor.dart';
 
 @entity
 class Film {
-  @PrimaryKey(autoGenerate: false)
+  @PrimaryKey(autoGenerate: true)
   final int? id;
   final int movieId;
   final String? name, description, launchOn, bannerPath, posterPath;

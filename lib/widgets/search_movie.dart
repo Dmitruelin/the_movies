@@ -26,7 +26,9 @@ class MovieSearch extends SearchDelegate {
   }
 
   @override
-  Widget? buildLeading(BuildContext context) {}
+  Widget? buildLeading(BuildContext context) {
+    return null;
+  }
 
   @override
   Widget buildResults(BuildContext context) {
