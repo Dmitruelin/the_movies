@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:the_movies/bloc/actors/actors_list_cubit.dart';
 import 'package:the_movies/models/films.dart';
-import 'package:the_movies/navigation/navigation_cubit.dart';
+import 'package:the_movies/screens/actors_screen.dart';
 import 'package:the_movies/utils/credentials.dart';
 import 'package:the_movies/utils/modified_text.dart';
 
@@ -98,12 +96,14 @@ class Description extends StatelessWidget {
                       size: 16,
                     ),
                     onPressed: () {
-                      context
-                          .read<ActorsListCubit>()
-                          .getActorsList(film.movieId!);
-                      context
-                          .read<NavigationCubit>()
-                          .goToActorsPage(movieId: film.movieId!);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) =>
+                                  ActorsScreen(movieId: film.movieId!)));
+                      // context
+                      //     .read<NavigationCubit>()
+                      //     .goToActorsPage(movieId: film.movieId!);
                     }),
               ],
             ),

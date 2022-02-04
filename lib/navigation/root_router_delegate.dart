@@ -18,14 +18,16 @@ class RootRouterDelegate extends RouterDelegate<NavigationState> {
   GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
 
   @override
-  Widget build(BuildContext context) => Navigator(
-        key: navigatorKey,
-        pages: List.from([
-          _materialPage(valueKey: "Start Page", child: const StartPage()),
-          ..._extraPages,
-        ]),
-        onPopPage: _onPopPage,
-      );
+  Widget build(BuildContext context) {
+    return Navigator(
+      key: navigatorKey,
+      pages: List.from([
+        _materialPage(valueKey: "Start Page", child: const StartPage()),
+        ..._extraPages,
+      ]),
+      onPopPage: _onPopPage,
+    );
+  }
 
   bool _onPopPage(Route<dynamic> route, dynamic result) {
     _navigationCubit.clearState();
@@ -72,10 +74,12 @@ class RootRouterDelegate extends RouterDelegate<NavigationState> {
     }
 
     if (_navigationCubit.state is ActorsListPageState) {
+      int movieId;
+      movieId = (_navigationCubit.state as ActorsListPageState).movieId;
       return [
         _materialPage(
           valueKey: "Actors List Page",
-          child: const ActorsScreen(),
+          child: ActorsScreen(movieId: movieId),
         ),
       ];
     }

@@ -8,10 +8,10 @@ class Actor with _$Actor {
   const factory Actor({
     @JsonKey(name: 'also_known_as') required List<String> alsoKnownAs,
     @JsonKey(name: 'profile_path') required String profilePath,
+    @JsonKey(name: 'birthday') String? birthDay,
+    @JsonKey(name: 'deathday') String? deathDay,
     required int id,
     String? name,
-    String? birthDay,
-    String? deathDay,
     String? biography,
     double? popularity,
     String? homePage,
