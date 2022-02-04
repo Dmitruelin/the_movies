@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:the_movies/models/films.dart';
+import 'package:the_movies/models/film.dart';
 import 'package:the_movies/navigation/navigation_cubit.dart';
 import 'package:the_movies/screens/actor_detail_screen.dart';
 import 'package:the_movies/screens/actors_screen.dart';
@@ -11,8 +11,9 @@ class RootRouterDelegate extends RouterDelegate<NavigationState> {
   final NavigationCubit _navigationCubit;
 
   RootRouterDelegate(
-      GlobalKey<NavigatorState> navigatorKey, NavigationCubit navigationCubit)
-      : _navigatorKey = navigatorKey,
+    GlobalKey<NavigatorState> navigatorKey,
+    NavigationCubit navigationCubit,
+  )   : _navigatorKey = navigatorKey,
         _navigationCubit = navigationCubit;
 
   GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
@@ -22,7 +23,7 @@ class RootRouterDelegate extends RouterDelegate<NavigationState> {
     return Navigator(
       key: navigatorKey,
       pages: List.from([
-        _materialPage(valueKey: "Start Page", child: const StartPage()),
+        _materialPage(valueKey: "Start Page", child: const StartScreen()),
         ..._extraPages,
       ]),
       onPopPage: _onPopPage,
@@ -50,36 +51,30 @@ class RootRouterDelegate extends RouterDelegate<NavigationState> {
 
   List<Page> get _extraPages {
     if (_navigationCubit.state is DescriptionPageState) {
-      Films film;
+      Film film;
       film = (_navigationCubit.state as DescriptionPageState).film;
       return [
-        _materialPage(
-          valueKey: "Description Page",
-          child: Description(film: film),
-        ),
+        FilmDetailsPage(film: film),
       ];
     }
 
     if (_navigationCubit.state is ActorDetailsPageState) {
-      int actorId;
-      actorId = (_navigationCubit.state as ActorDetailsPageState).actorId;
       return [
         _materialPage(
           valueKey: "Actor's Profile Page",
-          child: ActorDetailsPage(
-            actorId: actorId,
-          ),
+          child: const ActorDetailsScreen(),
         ),
       ];
     }
 
     if (_navigationCubit.state is ActorsListPageState) {
-      int movieId;
-      movieId = (_navigationCubit.state as ActorsListPageState).movieId;
+      final movieId = _navigationCubit.state.props[0] as int;
       return [
         _materialPage(
           valueKey: "Actors List Page",
-          child: ActorsScreen(movieId: movieId),
+          child: ActorsScreen(
+            movieId: movieId,
+          ),
         ),
       ];
     }

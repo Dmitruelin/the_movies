@@ -1,21 +1,21 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:the_movies/utils/constants.dart';
+// import 'package:the_movies/widgets/films_in_database.dart';
 import 'package:the_movies/widgets/films_list.dart';
 import 'package:the_movies/widgets/popular_films.dart';
 import 'package:the_movies/widgets/search_movie.dart';
 import 'package:the_movies/widgets/theme_switch.dart';
 
-class StartPage extends StatefulWidget {
-  const StartPage({Key? key}) : super(key: key);
+class StartScreen extends StatefulWidget {
+  const StartScreen({Key? key}) : super(key: key);
 
   @override
-  _StartPageState createState() => _StartPageState();
+  _StartScreenState createState() => _StartScreenState();
 }
 
-class _StartPageState extends State<StartPage> {
-  TextEditingController searchController = TextEditingController();
-
+class _StartScreenState extends State<StartScreen> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -31,8 +31,7 @@ class _StartPageState extends State<StartPage> {
       body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage(
-                  'https://funart.pro/uploads/posts/2020-04/1587215417_4-p-foni-dlya-prilozhenii-8.jpg'),
+              image: NetworkImage(baseUrlForBackground),
               fit: BoxFit.fitWidth,
               alignment: Alignment.topCenter,
               scale: 0.25,
@@ -73,25 +72,20 @@ class _StartPageState extends State<StartPage> {
                     ),
                     SliverList(
                       delegate: SliverChildListDelegate(<Widget>[
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        // verticalIndent(),
+                        // const FilmsListFromDatabase(),
+                        verticalIndent(),
                         const FilmsList(),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        verticalIndent(),
                         const PopularFilms(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        // const ThemeSwitch(),
+                        verticalIndent(),
                       ]),
                     ),
                   ]),
             ),
           )),
       bottomNavigationBar: AnimatedCrossFade(
-        duration: const Duration(milliseconds: 700),
+        duration: const Duration(milliseconds: 500),
         secondChild: Row(
           children: const [ThemeSwitch()],
           crossAxisAlignment: CrossAxisAlignment.center,
