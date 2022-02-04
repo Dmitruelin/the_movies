@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:the_movies/bloc/actors/actors_list_cubit.dart';
-
 import 'package:the_movies/bloc/actor_info/actor_info_cubit.dart';
-
 import 'package:the_movies/screens/actor_detail_screen.dart';
 import 'package:the_movies/utils/credentials.dart';
 import 'package:the_movies/utils/data_service_transition.dart';
@@ -19,9 +14,6 @@ class ActorsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // This is for Hero Animation
-    timeDilation = 2.0;
-
     return Scaffold(
       appBar: AppBar(
         title: const Icon(Icons.people),
@@ -50,10 +42,11 @@ class ActorsScreen extends StatelessWidget {
                                 context
                                     .read<ActorInfoCubit>()
                                     .getActorPersonalInfo(actors[index]['id']);
-                                Navigator.of(context).push(
-                                    MaterialPageRoute<void>(
-                                        builder: (context) =>
-                                            const ActorDetailsPage()));
+                                Navigator.of(context)
+                                    .push(MaterialPageRoute<void>(
+                                        builder: (context) => ActorDetailsPage(
+                                              actorId: actors[index]['id'],
+                                            )));
                               }
                             : () {},
                         height: 120,
