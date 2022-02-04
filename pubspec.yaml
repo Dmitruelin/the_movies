@@ -42,10 +42,6 @@ dependencies:
   freezed_annotation: ^1.1.0
   floor: ^1.2.0
   get_it: any
-
-
-  get_it: ^7.2.0
-
   json_annotation: any
   provider: ^6.0.2
 

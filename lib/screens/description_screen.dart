@@ -47,11 +47,11 @@ class DescriptionScreen extends StatelessWidget {
                     ),
                     onPressed: () {
                       context
-                          .read<ActorsListCubit>()
-                          .getActorsList(film.movieId);
-                      context
                           .read<NavigationCubit>()
                           .goToActorsPage(movieId: film.movieId);
+                      context
+                          .read<ActorsListCubit>()
+                          .getActorsList(movieId: film.movieId);
                     }),
               ],
             ),

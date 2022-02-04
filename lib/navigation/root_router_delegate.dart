@@ -68,13 +68,10 @@ class RootRouterDelegate extends RouterDelegate<NavigationState> {
     }
 
     if (_navigationCubit.state is ActorsListPageState) {
-      final movieId = _navigationCubit.state.props[0] as int;
       return [
         _materialPage(
           valueKey: "Actors List Page",
-          child: ActorsScreen(
-            movieId: movieId,
-          ),
+          child: const ActorsScreen(),
         ),
       ];
     }
