@@ -66,6 +66,7 @@ class DataServiceImplementation implements DataService {
     if (response.statusCode != 200) {
       throw Exception('Failed to connect API');
     }
+
     final Actor actor = Actor.fromJson(jsonDecode(response.body));
     return actor;
   }
