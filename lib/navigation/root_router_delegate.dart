@@ -61,10 +61,14 @@ class RootRouterDelegate extends RouterDelegate<NavigationState> {
     }
 
     if (_navigationCubit.state is ActorDetailsPageState) {
+      int actorId;
+      actorId = (_navigationCubit.state as ActorDetailsPageState).actorId;
       return [
         _materialPage(
           valueKey: "Actor's Profile Page",
-          child: const ActorDetailsPage(),
+          child: ActorDetailsPage(
+            actorId: actorId,
+          ),
         ),
       ];
     }
