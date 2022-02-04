@@ -4,7 +4,7 @@ import 'package:the_movies/bloc/now_playing/get_films_cubit.dart';
 import 'package:the_movies/models/film.dart';
 import 'package:the_movies/navigation/navigation_cubit.dart';
 import 'package:the_movies/screens/description_screen.dart';
-import 'package:the_movies/utils/credentials.dart';
+import 'package:the_movies/utils/constants.dart';
 
 class MovieSearch extends SearchDelegate {
   late Film film;

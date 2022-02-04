@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_movies/bloc/actor_info/actor_info_cubit.dart';
 import 'package:the_movies/bloc/actors/actors_list_cubit.dart';
 import 'package:the_movies/screens/actor_detail_screen.dart';
-import 'package:the_movies/utils/credentials.dart';
+import 'package:the_movies/utils/constants.dart';
 import 'package:the_movies/utils/modified_text.dart';
 import 'package:the_movies/utils/photo_hero.dart';
 
@@ -37,7 +37,7 @@ class ActorsScreen extends StatelessWidget {
                           context
                               .read<ActorInfoCubit>()
                               .getActorPersonalInfo(actors[index]['id']);
-                          Navigator.of(context).push(MaterialPageRoute<void>(
+                          Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>
                                   const ActorDetailsScreen()));
                         }
@@ -50,16 +50,12 @@ class ActorsScreen extends StatelessWidget {
                       actors[index]['gender'] == 2 ? Icons.male : Icons.female),
                   title: ModifiedText(
                     text: (actors[index]['name']) ?? 'Unknown actor',
-                    size: 19,
+                    size: ModifiedTextFontSize.medium,
                   ),
                   onTap: () {
                     context
                         .read<ActorInfoCubit>()
                         .getActorPersonalInfo(actors[index]['id']);
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => const ActorDetailsPage()));
                   },
                 ),
               ],

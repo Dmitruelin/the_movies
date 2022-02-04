@@ -54,10 +54,7 @@ class RootRouterDelegate extends RouterDelegate<NavigationState> {
       Film film;
       film = (_navigationCubit.state as DescriptionPageState).film;
       return [
-        _materialPage(
-          valueKey: "Description Page",
-          child: DescriptionScreen(film: film),
-        ),
+        FilmDetailsPage(film: film),
       ];
     }
 

@@ -3,7 +3,7 @@ import 'package:the_movies/main.dart';
 import 'package:the_movies/models/film.dart';
 import 'package:the_movies/models/film_dao.dart';
 import 'package:the_movies/screens/description_screen.dart';
-import 'package:the_movies/utils/credentials.dart';
+import 'package:the_movies/utils/constants.dart';
 import 'package:the_movies/utils/custom_page_route.dart';
 import 'package:the_movies/utils/modified_text.dart';
 
@@ -30,14 +30,12 @@ class FilmsListFromDatabase extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const ModifiedText.withShadows(
+                  ModifiedText.withShadows(
                     text: 'Movies from DataBase',
-                    size: 16,
+                    size: ModifiedTextFontSize.medium,
                     color: Colors.white,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  verticalIndent(),
                   SizedBox(
                     height: 270,
                     child: ListView.builder(

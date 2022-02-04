@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_movies/bloc/now_playing/get_films_cubit.dart';
 import 'package:the_movies/models/film.dart';
 import 'package:the_movies/navigation/navigation_cubit.dart';
-import 'package:the_movies/utils/credentials.dart';
+import 'package:the_movies/utils/constants.dart';
 import 'package:the_movies/utils/modified_text.dart';
 
 class FilmsList extends StatelessWidget {
@@ -21,14 +21,12 @@ class FilmsList extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const ModifiedText.withShadows(
+            ModifiedText.withShadows(
               text: 'Now playing',
-              size: 26.0,
+              size: ModifiedTextFontSize.large,
               color: Colors.white,
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            verticalIndent(),
             SizedBox(
               height: 370,
               child: ListView.builder(
@@ -40,7 +38,6 @@ class FilmsList extends StatelessWidget {
                         context
                             .read<NavigationCubit>()
                             .goToDescriptionPage(filmsList[index]);
-                        // dao.insertFilm(filmsList[index]);
                       },
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width / 1.4,

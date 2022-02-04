@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:the_movies/bloc/actor_info/actor_info_cubit.dart';
 import 'package:the_movies/models/actor.dart';
 import 'package:the_movies/theme/theme_cubit.dart';
-import 'package:the_movies/utils/credentials.dart';
+import 'package:the_movies/utils/constants.dart';
 import 'package:the_movies/utils/modified_text.dart';
 import 'package:the_movies/utils/photo_hero.dart';
 
@@ -50,9 +50,7 @@ class ActorDetailsScreen extends StatelessWidget {
                             ? Colors.blueGrey
                             : Colors.lightGreen)),
               ]),
-              const SizedBox(
-                height: 10,
-              ),
+              verticalIndent(),
               RichText(
                   text: TextSpan(children: <TextSpan>[
                 TextSpan(
@@ -83,19 +81,13 @@ class ActorDetailsScreen extends StatelessWidget {
                             ? Colors.blueGrey
                             : Colors.lightGreen)),
               ])),
-              const SizedBox(
-                height: 10,
-              ),
+              verticalIndent(),
               if (actor.birthDay != null)
                 ModifiedText(text: 'Date of birth : ${actor.birthDay}'),
-              const SizedBox(
-                height: 10,
-              ),
+              verticalIndent(),
               if (actor.deathDay != null)
                 ModifiedText(text: 'Date of death : ${actor.deathDay}'),
-              const SizedBox(
-                height: 10,
-              ),
+              verticalIndent(),
             ],
           );
         }

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:the_movies/utils/constants.dart';
 import 'package:the_movies/widgets/films_in_database.dart';
 import 'package:the_movies/widgets/films_list.dart';
 import 'package:the_movies/widgets/popular_films.dart';
@@ -30,8 +31,7 @@ class _StartScreenState extends State<StartScreen> {
       body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage(
-                  'https://funart.pro/uploads/posts/2020-04/1587215417_4-p-foni-dlya-prilozhenii-8.jpg'),
+              image: NetworkImage(baseUrlForBackground),
               fit: BoxFit.fitWidth,
               alignment: Alignment.topCenter,
               scale: 0.25,
@@ -72,29 +72,20 @@ class _StartScreenState extends State<StartScreen> {
                     ),
                     SliverList(
                       delegate: SliverChildListDelegate(<Widget>[
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        verticalIndent(),
                         const FilmsListFromDatabase(),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        verticalIndent(),
                         const FilmsList(),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        verticalIndent(),
                         const PopularFilms(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        // const ThemeSwitch(),
+                        verticalIndent(),
                       ]),
                     ),
                   ]),
             ),
           )),
       bottomNavigationBar: AnimatedCrossFade(
-        duration: const Duration(milliseconds: 700),
+        duration: const Duration(milliseconds: 500),
         secondChild: Row(
           children: const [ThemeSwitch()],
           crossAxisAlignment: CrossAxisAlignment.center,

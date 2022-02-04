@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_movies/theme/theme_cubit.dart';
+import 'package:the_movies/utils/constants.dart';
 import 'package:the_movies/utils/modified_text.dart';
 
 class ThemeSwitch extends StatelessWidget {
@@ -10,9 +11,9 @@ class ThemeSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
         onPressed: context.read<ThemeCubit>().toggleTheme,
-        child: const ModifiedText(
+        child: ModifiedText(
           text: 'Theme switcher',
-          size: 24,
+          size: ModifiedTextFontSize.large,
         ));
   }
 }

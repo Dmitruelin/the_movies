@@ -4,7 +4,7 @@ import 'package:the_movies/bloc/now_playing/get_films_cubit.dart';
 import 'package:the_movies/models/film.dart';
 import 'package:the_movies/navigation/navigation_cubit.dart';
 import 'package:the_movies/theme/theme_cubit.dart';
-import 'package:the_movies/utils/credentials.dart';
+import 'package:the_movies/utils/constants.dart';
 import 'package:the_movies/utils/modified_text.dart';
 
 class PopularFilms extends StatelessWidget {
@@ -27,15 +27,13 @@ class PopularFilms extends StatelessWidget {
           children: [
             ModifiedText.withShadows(
               text: 'Popular',
-              size: 26.0,
+              size: ModifiedTextFontSize.large,
               color: (context.read<ThemeCubit>().state.brightness ==
                       Brightness.light)
                   ? Colors.amberAccent
                   : Colors.white,
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            verticalIndent(),
             SizedBox(
               height: 200,
               child: ListView.builder(
