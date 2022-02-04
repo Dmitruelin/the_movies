@@ -1,8 +1,8 @@
-class Films {
+class Film {
   final String? name, description, launchOn, bannerPath, posterPath;
   final int? movieId;
 
-  Films({
+  Film({
     this.movieId,
     this.description,
     this.bannerPath,
@@ -11,14 +11,14 @@ class Films {
     this.name,
   });
 
-  factory Films.fromJson(Map<String, dynamic> json) {
+  factory Film.fromJson(Map<String, dynamic> json) {
     final name = json['title'];
     final movieId = json['id'];
     final launchOn = json['release_date'];
     final description = json['overview'];
     final bannerPath = json['backdrop_path'];
     final posterPath = json['poster_path'];
-    return Films(
+    return Film(
       name: name,
       movieId: movieId,
       launchOn: launchOn,

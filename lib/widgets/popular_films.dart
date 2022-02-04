@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_movies/bloc/get_films/get_films_cubit.dart';
-import 'package:the_movies/models/films.dart';
+import 'package:the_movies/models/film.dart';
 import 'package:the_movies/navigation/navigation_cubit.dart';
 import 'package:the_movies/theme/theme_cubit.dart';
 import 'package:the_movies/utils/credentials.dart';
@@ -12,7 +12,7 @@ class PopularFilms extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetFilmsCubit, List<Films>>(
+    return BlocBuilder<GetFilmsCubit, List<Film>>(
         builder: (context, filmsList) {
       if (filmsList.isEmpty) {
         return const Center(

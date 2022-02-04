@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_movies/bloc/get_films/get_films_cubit.dart';
-import 'package:the_movies/models/films.dart';
+import 'package:the_movies/models/film.dart';
 import 'package:the_movies/navigation/navigation_cubit.dart';
 import 'package:the_movies/screens/description_screen.dart';
-import 'package:the_movies/utils/credentials.dart';
+import 'package:the_movies/utils/constants.dart';
 
 class MovieSearch extends SearchDelegate {
-  late Films film;
+  late Film film;
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -30,12 +30,12 @@ class MovieSearch extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Description(film: film);
+    return DescriptionScreen(film: film);
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return BlocBuilder<GetFilmsCubit, List<Films>>(
+    return BlocBuilder<GetFilmsCubit, List<Film>>(
         builder: (context, filmsList) {
       final filmsListSuggestion = query.isEmpty
           ? filmsList
@@ -51,7 +51,7 @@ class MovieSearch extends SearchDelegate {
     });
   }
 
-  Widget buildSuggestionsSuccess(List<Films> filmList) {
+  Widget buildSuggestionsSuccess(List<Film> filmList) {
     List filmsList = filmList.toList();
     return ListView.builder(
         itemCount: filmsList.length,

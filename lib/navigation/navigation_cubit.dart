@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:the_movies/models/films.dart';
+import 'package:the_movies/models/film.dart';
 
 part 'navigation_state.dart';
 
@@ -9,8 +9,7 @@ class NavigationCubit extends Cubit<NavigationState> {
 
   void goToStartPage() => emit(const StartPageState());
 
-  void goToDescriptionPage(Films film) =>
-      emit(DescriptionPageState(film: film));
+  void goToDescriptionPage(Film film) => emit(DescriptionPageState(film: film));
 
   void goToActorsDetailsPage({required int actorId}) =>
       emit(ActorDetailsPageState(actorId: actorId));
@@ -24,7 +23,7 @@ class NavigationCubit extends Cubit<NavigationState> {
     if (state is ActorDetailsPageState) {
       goToActorsDetailsPage(actorId: state.props[0] as int);
     } else if (state is DescriptionPageState) {
-      goToDescriptionPage(state.props[0] as Films);
+      goToDescriptionPage(state.props[0] as Film);
     } else if (state is ActorsListPageState) {
       goToActorsPage(movieId: state.props[0] as int);
     } else {
