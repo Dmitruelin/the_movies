@@ -4,7 +4,7 @@ import 'package:the_movies/navigation/navigation_cubit.dart';
 import 'package:the_movies/screens/actor_detail_screen.dart';
 import 'package:the_movies/screens/actors_screen.dart';
 import 'package:the_movies/screens/description_screen.dart';
-import 'package:the_movies/screens/main_screen.dart';
+import 'package:the_movies/screens/start_screen.dart';
 
 class RootRouterDelegate extends RouterDelegate<NavigationState> {
   final GlobalKey<NavigatorState> _navigatorKey;

@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:the_movies/main.dart';
 import 'package:the_movies/models/actor.dart';
 import 'package:the_movies/models/film.dart';
+import 'package:the_movies/models/film_dao.dart';
 import 'package:the_movies/utils/data_service.dart';
 
 import 'credentials.dart';
@@ -38,6 +40,17 @@ class DataServiceImplementation implements DataService {
     final List<Film> filmsList = List<Film>.from(
             jsonDecode(response.body)['results'].map((e) => Film.fromJson(e)))
         .toList();
+
+    final dao = getIt.get<FilmDao>();
+
+    for (int i = 0; i < filmsList.length; i++) {
+      dao.deleteFilm(filmsList[i]);
+    }
+
+    for (int i = 0; i < filmsList.length; i++) {
+      dao.insertFilm(filmsList[i]);
+    }
+
     return filmsList;
   }
 
@@ -66,7 +79,6 @@ class DataServiceImplementation implements DataService {
     if (response.statusCode != 200) {
       throw Exception('Failed to connect API');
     }
-
     final Actor actor = Actor.fromJson(jsonDecode(response.body));
     return actor;
   }

@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:the_movies/utils/constants.dart';
-// import 'package:the_movies/widgets/films_in_database.dart';
+import 'package:the_movies/widgets/films_in_database.dart';
 import 'package:the_movies/widgets/films_list.dart';
 import 'package:the_movies/widgets/popular_films.dart';
 import 'package:the_movies/widgets/search_movie.dart';
@@ -72,8 +72,8 @@ class _StartScreenState extends State<StartScreen> {
                     ),
                     SliverList(
                       delegate: SliverChildListDelegate(<Widget>[
-                        // verticalIndent(),
-                        // const FilmsListFromDatabase(),
+                        verticalIndent(),
+                        const FilmsListFromDatabase(),
                         verticalIndent(),
                         const FilmsList(),
                         verticalIndent(),

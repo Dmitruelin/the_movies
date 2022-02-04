@@ -1,9 +1,15 @@
+import 'package:floor/floor.dart';
+
+@entity
 class Film {
+  @PrimaryKey(autoGenerate: false)
+  final int? id;
+  final int movieId;
   final String? name, description, launchOn, bannerPath, posterPath;
-  final int? movieId;
 
   Film({
-    this.movieId,
+    required this.movieId,
+    this.id,
     this.description,
     this.bannerPath,
     this.posterPath,

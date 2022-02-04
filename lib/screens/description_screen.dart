@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:the_movies/bloc/actors/actors_list_cubit.dart';
 import 'package:the_movies/models/film.dart';
 import 'package:the_movies/navigation/navigation_cubit.dart';
 import 'package:the_movies/utils/constants.dart';
@@ -46,8 +47,11 @@ class DescriptionScreen extends StatelessWidget {
                     ),
                     onPressed: () {
                       context
+                          .read<ActorsListCubit>()
+                          .getActorsList(film.movieId);
+                      context
                           .read<NavigationCubit>()
-                          .goToActorsPage(movieId: film.movieId!);
+                          .goToActorsPage(movieId: film.movieId);
                     }),
               ],
             ),
@@ -114,7 +118,7 @@ class FilmDetailsPage extends Page {
 
   FilmDetailsPage({
     required this.film,
-  }) : super(key: ValueKey(film.movieId));
+  }) : super(key: ValueKey(film.id));
 
   @override
   Route createRoute(BuildContext context) {
@@ -127,7 +131,7 @@ class FilmDetailsPage extends Page {
         return SlideTransition(
           position: animation.drive(curveTween).drive(tween),
           child: DescriptionScreen(
-            key: ValueKey(film.movieId),
+            key: ValueKey(film.id),
             film: film,
           ),
         );
