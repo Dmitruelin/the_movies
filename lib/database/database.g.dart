@@ -82,7 +82,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Film` (`movieId` INTEGER NOT NULL, `name` TEXT, `description` TEXT, `launchOn` TEXT, `bannerPath` TEXT, `posterPath` TEXT, PRIMARY KEY (`movieId`))');
+            'CREATE TABLE IF NOT EXISTS `Film` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `movieId` INTEGER NOT NULL, `name` TEXT, `description` TEXT, `launchOn` TEXT, `bannerPath` TEXT, `posterPath` TEXT)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -103,6 +103,7 @@ class _$FilmDao extends FilmDao {
             database,
             'Film',
             (Film item) => <String, Object?>{
+                  'id': item.id,
                   'movieId': item.movieId,
                   'name': item.name,
                   'description': item.description,
@@ -114,8 +115,9 @@ class _$FilmDao extends FilmDao {
         _filmUpdateAdapter = UpdateAdapter(
             database,
             'Film',
-            ['movieId'],
+            ['id'],
             (Film item) => <String, Object?>{
+                  'id': item.id,
                   'movieId': item.movieId,
                   'name': item.name,
                   'description': item.description,
@@ -127,8 +129,9 @@ class _$FilmDao extends FilmDao {
         _filmDeletionAdapter = DeletionAdapter(
             database,
             'Film',
-            ['movieId'],
+            ['id'],
             (Film item) => <String, Object?>{
+                  'id': item.id,
                   'movieId': item.movieId,
                   'name': item.name,
                   'description': item.description,
@@ -155,6 +158,7 @@ class _$FilmDao extends FilmDao {
     return _queryAdapter.queryList('SELECT * FROM film',
         mapper: (Map<String, Object?> row) => Film(
             movieId: row['movieId'] as int,
+            id: row['id'] as int?,
             description: row['description'] as String?,
             bannerPath: row['bannerPath'] as String?,
             posterPath: row['posterPath'] as String?,
@@ -167,6 +171,7 @@ class _$FilmDao extends FilmDao {
     return _queryAdapter.queryStream('SELECT * FROM film WHERE id = ?1',
         mapper: (Map<String, Object?> row) => Film(
             movieId: row['movieId'] as int,
+            id: row['id'] as int?,
             description: row['description'] as String?,
             bannerPath: row['bannerPath'] as String?,
             posterPath: row['posterPath'] as String?,
@@ -182,6 +187,7 @@ class _$FilmDao extends FilmDao {
     return _queryAdapter.queryListStream('SELECT * FROM film',
         mapper: (Map<String, Object?> row) => Film(
             movieId: row['movieId'] as int,
+            id: row['id'] as int?,
             description: row['description'] as String?,
             bannerPath: row['bannerPath'] as String?,
             posterPath: row['posterPath'] as String?,

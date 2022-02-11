@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:the_movies/bloc/get_films/get_films_cubit.dart';
+import 'package:the_movies/bloc/get_films/get_now_playing_films_cubit.dart';
 import 'package:the_movies/models/film.dart';
 import 'package:the_movies/navigation/navigation_cubit.dart';
 import 'package:the_movies/screens/description_screen.dart';

@@ -25,6 +25,7 @@ class DescriptionPageState extends NavigationState {
 
 class ActorDetailsPageState extends NavigationState {
   final int actorId;
+
   const ActorDetailsPageState({required this.actorId});
 
   @override
@@ -32,17 +33,11 @@ class ActorDetailsPageState extends NavigationState {
 }
 
 class ActorsListPageState extends NavigationState {
+  final Film film;
   final int movieId;
 
-  const ActorsListPageState({required this.movieId});
+  const ActorsListPageState({required this.movieId, required this.film});
 
   @override
-  List<Object?> get props => [movieId];
-}
-
-class ClearState extends NavigationState {
-  const ClearState();
-
-  @override
-  List<Object?> get props => [];
+  List<Object?> get props => [movieId, film];
 }
