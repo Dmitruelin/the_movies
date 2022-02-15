@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ModifiedText extends StatelessWidget {
+class ModifiedEnglishText extends StatelessWidget {
   final String text;
   final Color? color;
   final double? size;
   final bool? isShadowsOn;
 
-  const ModifiedText(
+  const ModifiedEnglishText(
       {this.color,
       this.size,
       required this.text,
@@ -15,7 +15,7 @@ class ModifiedText extends StatelessWidget {
       this.isShadowsOn = false})
       : super(key: key);
 
-  const ModifiedText.withShadows(
+  const ModifiedEnglishText.withShadows(
       {Key? key,
       required this.text,
       this.color,
@@ -36,7 +36,7 @@ class ModifiedText extends StatelessWidget {
             const Shadow(
               offset: Offset(1.0, 1.0),
               blurRadius: 3.0,
-              color: Color.fromARGB(255, 0, 0, 0),
+              color: Colors.black,
             ),
             const Shadow(
               offset: Offset(1.0, 1.0),

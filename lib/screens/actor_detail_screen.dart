@@ -7,7 +7,7 @@ import 'package:the_movies/models/actor.dart';
 import 'package:the_movies/theme/theme_cubit.dart';
 import 'package:the_movies/utils/constants.dart';
 import 'package:the_movies/utils/data_service.dart';
-import 'package:the_movies/utils/modified_text.dart';
+import 'package:the_movies/utils/modified_english_text.dart';
 import 'package:the_movies/utils/photo_hero.dart';
 
 class ActorDetailsScreen extends StatelessWidget {
@@ -44,7 +44,7 @@ class ActorDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 Row(children: [
-                  const ModifiedText.withShadows(
+                  const ModifiedEnglishText.withShadows(
                     text: 'Name :  ',
                     size: 19,
                   ),
@@ -78,10 +78,12 @@ class ActorDetailsScreen extends StatelessWidget {
                 ])),
                 verticalIndent(),
                 if (actor.birthDay != null)
-                  ModifiedText(text: 'Date of birth : ${actor.birthDay}'),
+                  ModifiedEnglishText(
+                      text: 'Date of birth : ${actor.birthDay}'),
                 verticalIndent(),
                 if (actor.deathDay != null)
-                  ModifiedText(text: 'Date of death : ${actor.deathDay}'),
+                  ModifiedEnglishText(
+                      text: 'Date of death : ${actor.deathDay}'),
                 verticalIndent(),
               ],
             );

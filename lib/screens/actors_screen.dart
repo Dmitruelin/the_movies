@@ -5,7 +5,7 @@ import 'package:the_movies/main.dart';
 import 'package:the_movies/navigation/navigation_cubit.dart';
 import 'package:the_movies/utils/constants.dart';
 import 'package:the_movies/utils/data_service.dart';
-import 'package:the_movies/utils/modified_text.dart';
+import 'package:the_movies/utils/modified_english_text.dart';
 import 'package:the_movies/utils/photo_hero.dart';
 
 class ActorsScreen extends StatelessWidget {
@@ -51,7 +51,7 @@ class ActorsScreen extends StatelessWidget {
                     trailing: Icon(actors[index]['gender'] == 2
                         ? Icons.male
                         : Icons.female),
-                    title: ModifiedText(
+                    title: ModifiedEnglishText(
                       text: (actors[index]['name']) ?? 'Unknown actor',
                       size: ModifiedTextFontSize.medium,
                     ),

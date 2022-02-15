@@ -11,14 +11,14 @@ class AnimatedPage extends Page {
     required this.path,
     this.args,
     this.transitionDuration = 400,
-    this.reverseTransitionDuration = 400,
+    this.reverseTransitionDuration = 200,
   }) : super(name: path, key: ValueKey(path), arguments: args);
 
   @override
   Route createRoute(BuildContext context) {
     return PageRouteBuilder(
       settings: this,
-      transitionDuration: const Duration(seconds: 1),
+      transitionDuration: const Duration(milliseconds: 400),
       pageBuilder: (context, animation, animation2) {
         final tween = Tween(begin: const Offset(0.0, 1.0), end: Offset.zero);
         final curveTween = CurveTween(curve: Curves.easeInOut);

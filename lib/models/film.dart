@@ -44,4 +44,9 @@ class Film {
     data['posterPath'] = posterPath;
     return data;
   }
+
+  @override
+  String toString() {
+    return (name!);
+  }
 }

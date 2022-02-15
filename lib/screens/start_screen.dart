@@ -1,11 +1,17 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_movies/utils/constants.dart';
+import 'package:the_movies/utils/modified_russian_text.dart';
 import 'package:the_movies/widgets/films_list.dart';
 import 'package:the_movies/widgets/popular_films.dart';
 import 'package:the_movies/widgets/search_movie.dart';
 import 'package:the_movies/widgets/theme_switch.dart';
+
+import '../generated/l10n.dart';
+import '../theme/theme_cubit.dart';
+import '../utils/modified_english_text.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({Key? key}) : super(key: key);
@@ -16,6 +22,7 @@ class StartScreen extends StatefulWidget {
 
 class _StartScreenState extends State<StartScreen> {
   int _selectedIndex = 0;
+  bool isEnglish = true;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -40,47 +47,90 @@ class _StartScreenState extends State<StartScreen> {
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
               decoration: BoxDecoration(color: Colors.white.withOpacity(0.0)),
-              child: CustomScrollView(
-                  physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()),
-                  slivers: <Widget>[
-                    SliverAppBar(
-                      automaticallyImplyLeading: false,
-                      backgroundColor: Colors.transparent,
-                      stretch: true,
-                      centerTitle: true,
-                      actions: [
-                        IconButton(
-                            onPressed: () {
-                              showSearch(
-                                context: context,
-                                delegate: MovieSearch(),
-                              );
-                            },
-                            icon: const Icon(Icons.search))
-                      ],
-                      flexibleSpace: const FlexibleSpaceBar(
-                        stretchModes: <StretchMode>[
-                          StretchMode.fadeTitle,
-                          StretchMode.blurBackground,
-                          StretchMode.zoomBackground,
-                        ],
-                        title: Text('Search bar'),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CustomScrollView(
+                    physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    slivers: <Widget>[
+                      SliverAppBar(
+                        leading: IconButton(
+                            onPressed: localeMenu,
+                            icon: const Icon(Icons.language)),
+                        backgroundColor: Colors.transparent,
+                        stretch: true,
                         centerTitle: true,
+                        actions: [
+                          IconButton(
+                              onPressed: () {
+                                showSearch(
+                                  context: context,
+                                  delegate: MovieSearch(),
+                                );
+                              },
+                              icon: const Icon(Icons.search))
+                        ],
+                        flexibleSpace: FlexibleSpaceBar(
+                          stretchModes: const <StretchMode>[
+                            StretchMode.fadeTitle,
+                            StretchMode.blurBackground,
+                            StretchMode.zoomBackground,
+                          ],
+                          title: Text(S.of(context).searchTitle),
+                          centerTitle: true,
+                        ),
                       ),
-                    ),
-                    SliverList(
-                      delegate: SliverChildListDelegate(<Widget>[
-                        // verticalIndent(),
-                        // const FilmsListFromDatabase(),
-                        verticalIndent(),
-                        const FilmsList(),
-                        verticalIndent(),
-                        const PopularFilms(),
-                        verticalIndent(),
-                      ]),
-                    ),
-                  ]),
+                      SliverList(
+                        delegate: SliverChildListDelegate(<Widget>[
+                          // verticalIndent(),
+                          // const FilmsListFromDatabase(),
+                          verticalIndent(),
+                          if (isEnglish)
+                            ModifiedEnglishText.withShadows(
+                              text: S.of(context).nowPlaying,
+                              size: ModifiedTextFontSize.large,
+                              color: Colors.white,
+                            ),
+                          if (!isEnglish)
+                            ModifiedRussianText.withShadows(
+                              text: S.of(context).nowPlaying,
+                              size: ModifiedTextFontSize.large,
+                              color: Colors.white,
+                            ),
+                          verticalIndent(),
+                          const FilmsList(),
+                          verticalIndent(),
+                          if (isEnglish)
+                            ModifiedEnglishText.withShadows(
+                              text: S.of(context).popularFilms,
+                              size: ModifiedTextFontSize.large,
+                              color: (context
+                                          .read<ThemeCubit>()
+                                          .state
+                                          .brightness ==
+                                      Brightness.light)
+                                  ? Colors.amberAccent
+                                  : Colors.white,
+                            ),
+                          if (!isEnglish)
+                            ModifiedRussianText.withShadows(
+                              text: S.of(context).popularFilms,
+                              size: ModifiedTextFontSize.large,
+                              color: (context
+                                          .read<ThemeCubit>()
+                                          .state
+                                          .brightness ==
+                                      Brightness.light)
+                                  ? Colors.amberAccent
+                                  : Colors.white,
+                            ),
+                          verticalIndent(),
+                          const PopularFilms(),
+                          verticalIndent(),
+                        ]),
+                      ),
+                    ]),
+              ),
             ),
           )),
       bottomNavigationBar: AnimatedCrossFade(
@@ -91,14 +141,14 @@ class _StartScreenState extends State<StartScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
         ),
         firstChild: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+              icon: const Icon(Icons.home),
+              label: S.of(context).home,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.color_lens),
-              label: 'Theme switch',
+              icon: const Icon(Icons.color_lens),
+              label: S.of(context).themeSwitch,
             ),
           ],
           currentIndex: _selectedIndex,
@@ -110,5 +160,19 @@ class _StartScreenState extends State<StartScreen> {
             : CrossFadeState.showSecond,
       ),
     );
+  }
+
+  void localeMenu() {
+    if (isEnglish) {
+      setState(() {
+        S.load(const Locale("ru", "RU"));
+        isEnglish = !isEnglish;
+      });
+    } else {
+      setState(() {
+        S.load(const Locale("en", "US"));
+        isEnglish = true;
+      });
+    }
   }
 }

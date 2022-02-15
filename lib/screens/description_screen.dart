@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_movies/models/film.dart';
 import 'package:the_movies/navigation/navigation_cubit.dart';
 import 'package:the_movies/utils/constants.dart';
-import 'package:the_movies/utils/modified_text.dart';
+import 'package:the_movies/utils/modified_english_text.dart';
+
+import '../generated/l10n.dart';
 
 class DescriptionScreen extends StatelessWidget {
   final Film film;
@@ -29,18 +31,18 @@ class DescriptionScreen extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                ModifiedText(
-                  text: 'Overview',
+                ModifiedEnglishText(
+                  text: S.of(context).overview,
                   size: ModifiedTextFontSize.large,
                   color: Colors.cyan,
                 ),
-                ModifiedText(
+                ModifiedEnglishText(
                   text: film.description!,
                   size: ModifiedTextFontSize.small,
                 ),
                 verticalIndent(),
                 ElevatedButton(
-                    child: ModifiedText(
+                    child: ModifiedEnglishText(
                       text: 'Actors list',
                       size: ModifiedTextFontSize.medium,
                     ),
@@ -85,8 +87,8 @@ class DescriptionScreen extends StatelessWidget {
         Positioned(
           child: SizedBox(
             width: 250,
-            child: ModifiedText(
-              text: 'Title: ' + film.name!,
+            child: ModifiedEnglishText(
+              text: S.of(context).filmTitle + film.name!,
               size: 18,
             ),
           ),
@@ -96,8 +98,8 @@ class DescriptionScreen extends StatelessWidget {
         Positioned(
           child: SizedBox(
             width: 250,
-            child: ModifiedText(
-              text: 'Starts on: ' + film.launchOn!,
+            child: ModifiedEnglishText(
+              text: S.of(context).startsOn + film.launchOn!,
               size: 18,
             ),
           ),
