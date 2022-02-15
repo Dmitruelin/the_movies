@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:the_movies/bloc/get_films/get_films_cubit.dart';
+import 'package:the_movies/bloc/get_films/get_now_playing_films_cubit.dart';
 import 'package:the_movies/models/film.dart';
-import 'package:the_movies/navigation/navigation_cubit.dart';
 import 'package:the_movies/utils/constants.dart';
 import 'package:the_movies/utils/modified_text.dart';
+
+import '../navigation/navigation_cubit.dart';
 
 class FilmsList extends StatelessWidget {
   const FilmsList({Key? key}) : super(key: key);
@@ -34,13 +35,13 @@ class FilmsList extends StatelessWidget {
                   itemCount: filmsList.length,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () async {
-                        context
-                            .read<NavigationCubit>()
-                            .goToDescriptionPage(filmsList[index]);
-                      },
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width / 1.4,
+                      onTap: () => context
+                          .read<NavigationCubit>()
+                          .goToDescriptionPage(filmsList[index]),
+                      child: Card(
+                        margin: const EdgeInsets.symmetric(horizontal: 28),
+                        elevation: 20,
+                        shadowColor: Colors.amberAccent,
                         child: Image.network(
                             baseUrlForImages + filmsList[index].posterPath!),
                       ),
