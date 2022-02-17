@@ -5,7 +5,7 @@ import 'package:the_movies/models/film_dao.dart';
 import 'package:the_movies/screens/description_screen.dart';
 import 'package:the_movies/utils/constants.dart';
 import 'package:the_movies/utils/custom_page_route.dart';
-import 'package:the_movies/utils/modified_english_text.dart';
+import 'package:the_movies/utils/modified_text.dart';
 
 class FilmsListFromDatabase extends StatelessWidget {
   const FilmsListFromDatabase({Key? key}) : super(key: key);
@@ -30,7 +30,7 @@ class FilmsListFromDatabase extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ModifiedEnglishText.withShadows(
+                  ModifiedText.withShadows(
                     text: 'Movies from DataBase',
                     size: ModifiedTextFontSize.medium,
                     color: Colors.white,
@@ -43,10 +43,6 @@ class FilmsListFromDatabase extends StatelessWidget {
                         itemCount: films.length,
                         itemBuilder: (_, index) {
                           return InkWell(
-                            enableFeedback: true,
-                            customBorder: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5))),
                             onTap: () {
                               Navigator.push(
                                   context,

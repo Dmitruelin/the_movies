@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "actorsList": MessageLookupByLibrary.simpleMessage("Актёры"),
         "filmTitle": MessageLookupByLibrary.simpleMessage("Название"),
         "home": MessageLookupByLibrary.simpleMessage("Статровая"),
         "nowPlaying": MessageLookupByLibrary.simpleMessage("Сейчас в прокате"),
@@ -29,6 +30,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "popularFilms": MessageLookupByLibrary.simpleMessage("Популярные"),
         "searchTitle": MessageLookupByLibrary.simpleMessage("Поиск"),
         "startsOn": MessageLookupByLibrary.simpleMessage("Начало показов"),
-        "themeSwitch": MessageLookupByLibrary.simpleMessage("Сменить тему")
+        "themeSwitch": MessageLookupByLibrary.simpleMessage("Сменить тему"),
+        "unknownActor":
+            MessageLookupByLibrary.simpleMessage("Неизвестный актёр")
       };
 }

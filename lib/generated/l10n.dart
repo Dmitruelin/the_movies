@@ -129,6 +129,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Actors list`
+  String get actorsList {
+    return Intl.message(
+      'Actors list',
+      name: 'actorsList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown actor`
+  String get unknownActor {
+    return Intl.message(
+      'Unknown actor',
+      name: 'unknownActor',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

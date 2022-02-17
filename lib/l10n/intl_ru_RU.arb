@@ -6,5 +6,7 @@
   "overview": "Описание",
   "filmTitle": "Название",
   "home": "Статровая",
-  "themeSwitch": "Сменить тему"
+  "themeSwitch": "Сменить тему",
+  "actorsList" : "Актёры",
+  "unknownActor" : "Неизвестный актёр"
 }

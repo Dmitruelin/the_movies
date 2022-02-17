@@ -6,5 +6,7 @@
   "overview": "Overview",
   "filmTitle": "Title is",
   "home": "Home",
-  "themeSwitch": "Theme switch"
+  "themeSwitch": "Theme switch",
+  "actorsList" : "Actors list",
+  "unknownActor" : "Unknown actor"
 }

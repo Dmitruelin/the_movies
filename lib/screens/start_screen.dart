@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_movies/utils/constants.dart';
-import 'package:the_movies/utils/modified_russian_text.dart';
 import 'package:the_movies/widgets/films_list.dart';
 import 'package:the_movies/widgets/popular_films.dart';
 import 'package:the_movies/widgets/search_movie.dart';
@@ -11,7 +10,7 @@ import 'package:the_movies/widgets/theme_switch.dart';
 
 import '../generated/l10n.dart';
 import '../theme/theme_cubit.dart';
-import '../utils/modified_english_text.dart';
+import '../utils/modified_text.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({Key? key}) : super(key: key);
@@ -85,45 +84,23 @@ class _StartScreenState extends State<StartScreen> {
                           // verticalIndent(),
                           // const FilmsListFromDatabase(),
                           verticalIndent(),
-                          if (isEnglish)
-                            ModifiedEnglishText.withShadows(
-                              text: S.of(context).nowPlaying,
-                              size: ModifiedTextFontSize.large,
-                              color: Colors.white,
-                            ),
-                          if (!isEnglish)
-                            ModifiedRussianText.withShadows(
-                              text: S.of(context).nowPlaying,
-                              size: ModifiedTextFontSize.large,
-                              color: Colors.white,
-                            ),
+                          ModifiedText.withShadows(
+                            text: S.of(context).nowPlaying,
+                            size: ModifiedTextFontSize.large,
+                            color: Colors.white,
+                          ),
                           verticalIndent(),
                           const FilmsList(),
                           verticalIndent(),
-                          if (isEnglish)
-                            ModifiedEnglishText.withShadows(
-                              text: S.of(context).popularFilms,
-                              size: ModifiedTextFontSize.large,
-                              color: (context
-                                          .read<ThemeCubit>()
-                                          .state
-                                          .brightness ==
-                                      Brightness.light)
-                                  ? Colors.amberAccent
-                                  : Colors.white,
-                            ),
-                          if (!isEnglish)
-                            ModifiedRussianText.withShadows(
-                              text: S.of(context).popularFilms,
-                              size: ModifiedTextFontSize.large,
-                              color: (context
-                                          .read<ThemeCubit>()
-                                          .state
-                                          .brightness ==
-                                      Brightness.light)
-                                  ? Colors.amberAccent
-                                  : Colors.white,
-                            ),
+                          ModifiedText.withShadows(
+                            text: S.of(context).popularFilms,
+                            size: ModifiedTextFontSize.large,
+                            color:
+                                (context.read<ThemeCubit>().state.brightness ==
+                                        Brightness.light)
+                                    ? Colors.amberAccent
+                                    : Colors.white,
+                          ),
                           verticalIndent(),
                           const PopularFilms(),
                           verticalIndent(),

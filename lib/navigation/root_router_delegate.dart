@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_movies/navigation/navigation_cubit.dart';
-import 'package:the_movies/screens/animated_page.dart';
 import 'package:the_movies/screens/description_screen.dart';
 import 'package:the_movies/screens/start_screen.dart';
+import 'package:the_movies/utils/animated_page.dart';
 
 import '../models/film.dart';
 import '../screens/actor_detail_screen.dart';
@@ -21,26 +21,7 @@ class RootRouterDelegate extends RouterDelegate<NavigationState> {
     return BlocBuilder<NavigationCubit, NavigationState>(
       builder: (context, state) => Navigator(
           key: _navigatorKey,
-          pages: List.from([
-            AnimatedPage(child: const StartScreen(), path: '/home'),
-            if (state is DescriptionPageState)
-              AnimatedPage(
-                  child: DescriptionScreen(film: state.film),
-                  path: '/description',
-                  args: {'filmTitle': state.film.name}),
-            if (state is ActorDetailsPageState)
-              AnimatedPage(
-                path: "/profile",
-                child: ActorDetailsScreen(personId: state.actorId),
-              ),
-            if (state is ActorsListPageState)
-              AnimatedPage(
-                path: "/list",
-                child: ActorsScreen(movieId: state.movieId),
-              ),
-          ]),
-
-          // _extraPages(state),
+          pages: _extraPages(state),
           onPopPage: (route, result) {
             NavigationCubit cubit = context.read<NavigationCubit>();
             if (!route.didPop(result)) return false;
@@ -50,11 +31,39 @@ class RootRouterDelegate extends RouterDelegate<NavigationState> {
     );
   }
 
-  void popExtra(NavigationCubit cubit) {
-    if (cubit.state is StartPageState) {
-      cubit.goToStartPage();
+  List<Page> _extraPages(NavigationState state) {
+    List<Page> pages = [
+      AnimatedPage(child: const StartScreen(), path: '/home'),
+    ];
+
+    if (state is DescriptionPageState) {
+      pages.add(AnimatedPage(
+          child: DescriptionScreen(film: state.film),
+          path: '/description',
+          args: {'filmTitle': state.film.name}));
     }
 
+    if (state is ActorDetailsPageState) {
+      pages.add(AnimatedPage(
+        path: "/profile",
+        child: ActorDetailsScreen(
+          personId: state.actorId,
+          posterPath: state.profilePath,
+        ),
+      ));
+    }
+
+    if (state is ActorsListPageState) {
+      pages.add(AnimatedPage(
+        path: "/list",
+        child: ActorsScreen(movieId: state.movieId),
+      ));
+    }
+
+    return pages;
+  }
+
+  void popExtra(NavigationCubit cubit) {
     if (cubit.state is DescriptionPageState) {
       cubit.goToStartPage();
     }

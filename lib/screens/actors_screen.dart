@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_movies/bloc/actors/actors_list_cubit.dart';
 import 'package:the_movies/main.dart';
-import 'package:the_movies/navigation/navigation_cubit.dart';
+import 'package:the_movies/screens/actor_detail_screen.dart';
 import 'package:the_movies/utils/constants.dart';
 import 'package:the_movies/utils/data_service.dart';
-import 'package:the_movies/utils/modified_english_text.dart';
+import 'package:the_movies/utils/modified_text.dart';
 import 'package:the_movies/utils/photo_hero.dart';
+
+import '../generated/l10n.dart';
 
 class ActorsScreen extends StatelessWidget {
   final int movieId;
+
   const ActorsScreen({Key? key, required this.movieId}) : super(key: key);
 
   @override
@@ -31,28 +34,28 @@ class ActorsScreen extends StatelessWidget {
                 children: [
                   SizedBox(
                     height: 120,
-                    child: PhotoHero(
-                      photo: (actors[index]['profile_path'] != null)
-                          ? (baseUrlForImages + actors[index]['profile_path'])
-                          : unknownActorPhoto,
-                      onTap: (actors[index]['profile_path'] != null)
-                          ? () {
-                              context
-                                  .read<NavigationCubit>()
-                                  .goToActorsDetailsPage(
-                                    actors[index]['id'],
-                                  );
-                            }
-                          : () {},
-                      width: 200,
-                    ),
+                    child: (actors[index]['profile_path'] != null)
+                        ? PhotoHero(
+                            photo: (baseUrlForImages +
+                                actors[index]['profile_path']),
+                            onTap: () =>
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ActorDetailsScreen(
+                                          personId: (actors[index]['id']),
+                                          posterPath: actors[index]
+                                              ['profile_path'],
+                                        ))),
+                            width: 200,
+                          )
+                        : Image.network(unknownActorPhoto),
                   ),
                   ListTile(
                     trailing: Icon(actors[index]['gender'] == 2
                         ? Icons.male
                         : Icons.female),
-                    title: ModifiedEnglishText(
-                      text: (actors[index]['name']) ?? 'Unknown actor',
+                    title: ModifiedText(
+                      text:
+                          (actors[index]['name']) ?? S.of(context).unknownActor,
                       size: ModifiedTextFontSize.medium,
                     ),
                   ),
