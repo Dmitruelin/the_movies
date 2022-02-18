@@ -1,0 +1,12 @@
+{
+  "searchTitle": "Поиск",
+  "nowPlaying": "Сейчас в прокате",
+  "popularFilms": "Популярные",
+  "startsOn": "Начало показов",
+  "overview": "Описание",
+  "filmTitle": "Название",
+  "home": "Статровая",
+  "themeSwitch": "Сменить тему",
+  "actorsList" : "Актёры",
+  "unknownActor" : "Неизвестный актёр"
+}

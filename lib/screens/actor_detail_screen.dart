@@ -12,87 +12,99 @@ import 'package:the_movies/utils/photo_hero.dart';
 
 class ActorDetailsScreen extends StatelessWidget {
   final int personId;
+  final String posterPath;
 
-  const ActorDetailsScreen({Key? key, required this.personId})
+  const ActorDetailsScreen(
+      {Key? key, required this.personId, required this.posterPath})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile screen'),
-        centerTitle: true,
-      ),
-      body: BlocProvider<ActorInfoCubit>(
-        create: (context) => ActorInfoCubit(getIt.get<DataService>())
-          ..getActorPersonalInfo(personId),
-        child: BlocBuilder<ActorInfoCubit, ActorInfoState>(
-            builder: (context, state) {
-          if (state is ActorInfoLoadingState) {
-            return const CircularProgressIndicator();
-          }
-          if (state is ActorInfoLoadedState) {
-            final Actor actor = state.actor;
-            return ListView(
-              children: [
-                SizedBox(
-                  height: 300,
-                  child: PhotoHero(
-                    onTap: () => Navigator.pop(context),
-                    width: MediaQuery.of(context).size.width,
-                    photo: baseUrlForImages + actor.profilePath,
+        appBar: AppBar(
+          title: const Text('Profile'),
+          centerTitle: true,
+        ),
+        body: Column(children: [
+          SizedBox(
+            height: 220,
+            child: PhotoHero(
+              onTap: () {},
+              width: MediaQuery.of(context).size.width,
+              photo: baseUrlForImages + posterPath,
+            ),
+          ),
+          BlocProvider<ActorInfoCubit>(
+            create: (context) => ActorInfoCubit(getIt.get<DataService>())
+              ..getActorPersonalInfo(personId),
+            child: BlocBuilder<ActorInfoCubit, ActorInfoState>(
+                builder: (context, state) {
+              if (state is ActorInfoLoadingState) {
+                return const CircularProgressIndicator();
+              }
+              if (state is ActorInfoLoadedState) {
+                final Actor actor = state.actor;
+                return Flexible(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      Row(children: [
+                        const ModifiedText.withShadows(
+                          text: 'Name :  ',
+                          size: 19,
+                        ),
+                        Text('${actor.name}',
+                            style: GoogleFonts.adamina(
+                                fontSize: ModifiedTextFontSize.medium,
+                                fontWeight: FontWeight.bold,
+                                color: (context
+                                            .read<ThemeCubit>()
+                                            .state
+                                            .brightness ==
+                                        Brightness.light)
+                                    ? Colors.blueGrey
+                                    : Colors.lightGreen)),
+                      ]),
+                      verticalIndent(),
+                      RichText(
+                          text: TextSpan(children: <TextSpan>[
+                        TextSpan(
+                          text: 'Biography : ',
+                          style: GoogleFonts.breeSerif(
+                            fontSize: ModifiedTextFontSize.medium,
+                            height: 0.9,
+                          ),
+                        ),
+                        TextSpan(
+                            text: '${actor.biography}',
+                            style: GoogleFonts.adamina(
+                                fontSize: ModifiedTextFontSize.medium,
+                                color: (context
+                                            .read<ThemeCubit>()
+                                            .state
+                                            .brightness ==
+                                        Brightness.light)
+                                    ? Colors.blueGrey
+                                    : Colors.lightGreen)),
+                      ])),
+                      verticalIndent(),
+                      if (actor.birthDay != null)
+                        ModifiedText(text: 'Date of birth : ${actor.birthDay}'),
+                      verticalIndent(),
+                      if (actor.deathDay != null)
+                        ModifiedText(text: 'Date of death : ${actor.deathDay}'),
+                      verticalIndent(),
+                    ],
                   ),
-                ),
-                Row(children: [
-                  const ModifiedText.withShadows(
-                    text: 'Name :  ',
-                    size: 19,
-                  ),
-                  Text('${actor.name}',
-                      style: GoogleFonts.adamina(
-                          fontSize: ModifiedTextFontSize.medium,
-                          fontWeight: FontWeight.bold,
-                          color: (context.read<ThemeCubit>().state.brightness ==
-                                  Brightness.light)
-                              ? Colors.blueGrey
-                              : Colors.lightGreen)),
-                ]),
-                verticalIndent(),
-                RichText(
-                    text: TextSpan(children: <TextSpan>[
-                  TextSpan(
-                    text: 'Biography : ',
-                    style: GoogleFonts.breeSerif(
-                      fontSize: ModifiedTextFontSize.medium,
-                      height: 0.9,
-                    ),
-                  ),
-                  TextSpan(
-                      text: '${actor.biography}',
-                      style: GoogleFonts.adamina(
-                          fontSize: ModifiedTextFontSize.medium,
-                          color: (context.read<ThemeCubit>().state.brightness ==
-                                  Brightness.light)
-                              ? Colors.blueGrey
-                              : Colors.lightGreen)),
-                ])),
-                verticalIndent(),
-                if (actor.birthDay != null)
-                  ModifiedText(text: 'Date of birth : ${actor.birthDay}'),
-                verticalIndent(),
-                if (actor.deathDay != null)
-                  ModifiedText(text: 'Date of death : ${actor.deathDay}'),
-                verticalIndent(),
-              ],
-            );
-          }
-          if (state is ErrorState) {
-            return const Icon(Icons.close);
-          } else {
-            return Container();
-          }
-        }),
-      ),
-    );
+                );
+              }
+              if (state is ErrorState) {
+                return const Icon(Icons.close);
+              } else {
+                return Container();
+              }
+            }),
+          ),
+        ]));
   }
 }

@@ -5,6 +5,8 @@ import 'package:the_movies/navigation/navigation_cubit.dart';
 import 'package:the_movies/utils/constants.dart';
 import 'package:the_movies/utils/modified_text.dart';
 
+import '../generated/l10n.dart';
+
 class DescriptionScreen extends StatelessWidget {
   final Film film;
 
@@ -20,39 +22,40 @@ class DescriptionScreen extends StatelessWidget {
         title: Text('${film.name}'),
         centerTitle: true,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          buildStack(context),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                ModifiedText(
-                  text: 'Overview',
-                  size: ModifiedTextFontSize.large,
-                  color: Colors.cyan,
-                ),
-                ModifiedText(
-                  text: film.description!,
-                  size: ModifiedTextFontSize.small,
-                ),
-                verticalIndent(),
-                ElevatedButton(
-                    child: ModifiedText(
-                      text: 'Actors list',
-                      size: ModifiedTextFontSize.medium,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            buildStack(context),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    ModifiedText(
+                      text: S.of(context).overview,
+                      size: ModifiedTextFontSize.large,
+                      color: Colors.cyan,
                     ),
-                    onPressed: () {
-                      context
-                          .read<NavigationCubit>()
-                          .goToActorsPage(film.movieId, film);
-                    }),
-              ],
-            ),
-          ),
-        ],
+                    ModifiedText(
+                      text: film.description!,
+                      size: ModifiedTextFontSize.small,
+                    ),
+                    verticalIndent(),
+                    ElevatedButton(
+                        child: ModifiedText(
+                          text: S.of(context).actorsList,
+                          size: ModifiedTextFontSize.medium,
+                        ),
+                        onPressed: () {
+                          context
+                              .read<NavigationCubit>()
+                              .goToActorsPage(film.movieId, film);
+                        }),
+                  ],
+                )),
+          ],
+        ),
       ),
     );
   }
@@ -78,15 +81,13 @@ class DescriptionScreen extends StatelessWidget {
             bottom: 0,
             child: SizedBox(
               height: 150,
-              child: Hero(
-                  tag: 'poster-image',
-                  child: Image.network(baseUrlForImages + film.posterPath!)),
+              child: Image.network(baseUrlForImages + film.posterPath!),
             )),
         Positioned(
           child: SizedBox(
             width: 250,
             child: ModifiedText(
-              text: 'Title: ' + film.name!,
+              text: S.of(context).filmTitle + " : " + film.name!,
               size: 18,
             ),
           ),
@@ -97,7 +98,7 @@ class DescriptionScreen extends StatelessWidget {
           child: SizedBox(
             width: 250,
             child: ModifiedText(
-              text: 'Starts on: ' + film.launchOn!,
+              text: S.of(context).startsOn + " : " + film.launchOn!,
               size: 18,
             ),
           ),

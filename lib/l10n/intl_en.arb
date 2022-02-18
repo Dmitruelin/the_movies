@@ -1,0 +1,12 @@
+{
+  "searchTitle": "Search bar",
+  "nowPlaying": "Now playing",
+  "popularFilms": "Popular films",
+  "startsOn": "Starts on",
+  "overview": "Overview",
+  "filmTitle": "Title is",
+  "home": "Home",
+  "themeSwitch": "Theme switch",
+  "actorsList" : "Actors list",
+  "unknownActor" : "Unknown actor"
+}

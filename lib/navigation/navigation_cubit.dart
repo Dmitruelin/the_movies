@@ -16,9 +16,9 @@ class NavigationCubit extends Cubit<NavigationState> {
     emit(DescriptionPageState(film: film));
   }
 
-  void goToActorsDetailsPage(int actorId) {
+  void goToActorsDetailsPage(int actorId, String profilePath) {
     previousState = state;
-    emit(ActorDetailsPageState(actorId: actorId));
+    emit(ActorDetailsPageState(actorId: actorId, profilePath: profilePath));
   }
 
   void goToActorsPage(int movieId, Film film) {

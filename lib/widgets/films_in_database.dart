@@ -43,10 +43,6 @@ class FilmsListFromDatabase extends StatelessWidget {
                         itemCount: films.length,
                         itemBuilder: (_, index) {
                           return InkWell(
-                            enableFeedback: true,
-                            customBorder: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5))),
                             onTap: () {
                               Navigator.push(
                                   context,

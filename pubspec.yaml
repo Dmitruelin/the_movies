@@ -29,6 +29,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -38,12 +40,14 @@ dependencies:
   equatable: ^2.0.3
   google_fonts: ^2.2.0
   json_serializable: ^6.1.4
-  http: ^0.13.4
   freezed_annotation: ^1.1.0
   floor: ^1.2.0
   get_it: any
   provider: any
   json_annotation: any
+  intl: any
+  dio: ^4.0.4
+
 
 
 
@@ -57,6 +61,7 @@ dev_dependencies:
     sdk: flutter
   test: ^1.14.4
   mocktail: any
+
 
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -106,3 +111,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true
