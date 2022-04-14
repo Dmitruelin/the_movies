@@ -10,5 +10,5 @@ class GetPopularFilms extends Cubit<List<Film>> {
 
   GetPopularFilms(this._dataService) : super([]);
 
-  void getPopularFilms() async => emit(await dataService.getPopularFilms());
+  void getPopularFilms(String locale) async => emit(await dataService.getPopularFilms(locale));
 }

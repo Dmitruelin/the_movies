@@ -29,7 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "overview": MessageLookupByLibrary.simpleMessage("Описание"),
         "popularFilms": MessageLookupByLibrary.simpleMessage("Популярные"),
         "searchTitle": MessageLookupByLibrary.simpleMessage("Поиск"),
-        "startsOn": MessageLookupByLibrary.simpleMessage("Начало показов"),
+        "startsOn": MessageLookupByLibrary.simpleMessage("Начало показов : "),
         "themeSwitch": MessageLookupByLibrary.simpleMessage("Сменить тему"),
         "unknownActor":
             MessageLookupByLibrary.simpleMessage("Неизвестный актёр")

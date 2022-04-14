@@ -22,10 +22,10 @@ class MyApp extends StatelessWidget {
         BlocProvider<NavigationCubit>(create: (_) => NavigationCubit()),
         BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
         BlocProvider<GetFilmsCubit>(
-            create: (_) => GetFilmsCubit(getIt.get<DataService>())..getFilms()),
+            create: (_) => GetFilmsCubit(getIt.get<DataService>())..getFilms('en-US')),
         BlocProvider<GetPopularFilms>(
             create: (_) =>
-                (GetPopularFilms(getIt.get<DataService>())..getPopularFilms())),
+                (GetPopularFilms(getIt.get<DataService>())..getPopularFilms('en-US'))),
       ],
       child: BlocBuilder<ThemeCubit, ThemeData>(
         builder: (context, theme) {

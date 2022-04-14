@@ -9,5 +9,10 @@ class GetFilmsCubit extends Cubit<List<Film>> {
 
   GetFilmsCubit(this._dataService) : super([]);
 
-  void getFilms() async => emit(await dataService.getNowPlayingFilms());
+  void getFilms(String locale) async {
+    final List<Film> filmsList = await dataService.getNowPlayingFilms(locale);
+    final filteredList =
+        filmsList.where((element) => element.posterPath != null).toList();
+    emit(filteredList);
+  }
 }
