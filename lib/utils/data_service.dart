@@ -1,7 +1,7 @@
 abstract class DataService {
-  getNowPlayingFilms() {}
+  getNowPlayingFilms(String locale) {}
 
-  getPopularFilms() {}
+  getPopularFilms(String locale) {}
 
   getActorsList(int movieId) {}
 

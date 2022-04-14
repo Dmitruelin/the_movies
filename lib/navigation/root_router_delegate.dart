@@ -1,35 +1,81 @@
 import 'package:flutter/material.dart';
-import 'package:the_movies/models/films.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_movies/navigation/navigation_cubit.dart';
-import 'package:the_movies/screens/actor_detail_screen.dart';
-import 'package:the_movies/screens/actors_screen.dart';
 import 'package:the_movies/screens/description_screen.dart';
-import 'package:the_movies/screens/main_screen.dart';
+import 'package:the_movies/screens/start_screen.dart';
+import 'package:the_movies/utils/animated_page.dart';
+
+import '../models/film.dart';
+import '../screens/actor_detail_screen.dart';
+import '../screens/actors_screen.dart';
 
 class RootRouterDelegate extends RouterDelegate<NavigationState> {
   final GlobalKey<NavigatorState> _navigatorKey;
-  final NavigationCubit _navigationCubit;
 
   RootRouterDelegate(
-      GlobalKey<NavigatorState> navigatorKey, NavigationCubit navigationCubit)
-      : _navigatorKey = navigatorKey,
-        _navigationCubit = navigationCubit;
-
-  GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
+    this._navigatorKey,
+  );
 
   @override
-  Widget build(BuildContext context) => Navigator(
-        key: navigatorKey,
-        pages: List.from([
-          _materialPage(valueKey: "Start Page", child: const StartPage()),
-          ..._extraPages,
-        ]),
-        onPopPage: _onPopPage,
-      );
+  Widget build(BuildContext context) {
+    return BlocBuilder<NavigationCubit, NavigationState>(
+      builder: (context, state) => Navigator(
+          key: _navigatorKey,
+          pages: _extraPages(state),
+          onPopPage: (route, result) {
+            NavigationCubit cubit = context.read<NavigationCubit>();
+            if (!route.didPop(result)) return false;
+            popExtra(cubit);
+            return true;
+          }),
+    );
+  }
 
-  bool _onPopPage(Route<dynamic> route, dynamic result) {
-    _navigationCubit.clearState();
-    return route.didPop(result);
+  List<Page> _extraPages(NavigationState state) {
+    List<Page> pages = [
+      AnimatedPage(child: const StartScreen(), path: '/home'),
+    ];
+
+    if (state is DescriptionPageState) {
+      pages.add(AnimatedPage(
+          child: DescriptionScreen(film: state.film),
+          path: '/description',
+          args: {'filmTitle': state.film.name}));
+    }
+
+    if (state is ActorDetailsPageState) {
+      pages.add(AnimatedPage(
+        path: "/profile",
+        child: ActorDetailsScreen(
+          personId: state.actorId,
+          posterPath: state.profilePath,
+        ),
+      ));
+    }
+
+    if (state is ActorsListPageState) {
+      pages.add(AnimatedPage(
+        path: "/list",
+        child: ActorsScreen(movieId: state.movieId),
+      ));
+    }
+
+    return pages;
+  }
+
+  void popExtra(NavigationCubit cubit) {
+    if (cubit.state is DescriptionPageState) {
+      cubit.goToStartPage();
+    }
+
+    if (cubit.state is ActorsListPageState) {
+      cubit.goToDescriptionPage(cubit.state.props[1] as Film);
+    }
+
+    if (cubit.state is ActorDetailsPageState) {
+      cubit.goToActorsPage(cubit.previousState.props[0] as int,
+          cubit.previousState.props[1] as Film);
+    }
   }
 
   @override
@@ -37,50 +83,9 @@ class RootRouterDelegate extends RouterDelegate<NavigationState> {
     return await _confirmAppExit();
   }
 
-  Page _materialPage({
-    required String valueKey,
-    required Widget child,
-  }) =>
-      MaterialPage(
-        key: ValueKey<String>(valueKey),
-        child: child,
-      );
-
-  List<Page> get _extraPages {
-    if (_navigationCubit.state is DescriptionPageState) {
-      Films film;
-      film = (_navigationCubit.state as DescriptionPageState).film;
-      return [
-        _materialPage(
-          valueKey: "Description Page",
-          child: Description(film: film),
-        ),
-      ];
-    }
-
-    if (_navigationCubit.state is ActorDetailsPageState) {
-      return [
-        _materialPage(
-          valueKey: "Actor's Profile Page",
-          child: const ActorDetailsPage(),
-        ),
-      ];
-    }
-
-    if (_navigationCubit.state is ActorsListPageState) {
-      return [
-        _materialPage(
-          valueKey: "Actors List Page",
-          child: const ActorsScreen(),
-        ),
-      ];
-    }
-    return [];
-  }
-
   Future<bool> _confirmAppExit() async =>
       await showDialog<bool>(
-          context: navigatorKey.currentContext!,
+          context: _navigatorKey.currentContext!,
           builder: (context) {
             return AlertDialog(
               title: const Text("Exit App"),

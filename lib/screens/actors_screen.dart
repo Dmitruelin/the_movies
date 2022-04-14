@@ -1,73 +1,72 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:the_movies/bloc/actor_info/actor_info_cubit.dart';
 import 'package:the_movies/bloc/actors/actors_list_cubit.dart';
+import 'package:the_movies/main.dart';
 import 'package:the_movies/screens/actor_detail_screen.dart';
-import 'package:the_movies/utils/credentials.dart';
+import 'package:the_movies/utils/constants.dart';
+import 'package:the_movies/utils/data_service.dart';
 import 'package:the_movies/utils/modified_text.dart';
 import 'package:the_movies/utils/photo_hero.dart';
 
+import '../generated/l10n.dart';
+
 class ActorsScreen extends StatelessWidget {
-  const ActorsScreen({Key? key}) : super(key: key);
+  final int movieId;
+
+  const ActorsScreen({Key? key, required this.movieId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // This is for Hero Animation
-    timeDilation = 2.0;
-
     return Scaffold(
       appBar: AppBar(
         title: const Icon(Icons.people),
         centerTitle: true,
         elevation: 4,
       ),
-      body: BlocBuilder<ActorsListCubit, List>(builder: (context, actors) {
-        return GridView.builder(
-          itemCount: actors.length,
-          itemBuilder: (context, index) {
-            return Column(
-              children: [
-                PhotoHero(
-                  photo: (actors[index]['profile_path'] != null)
-                      ? (baseUrlForImages + actors[index]['profile_path'])
-                      : unknownActorPhoto,
-                  onTap: (actors[index]['profile_path'] != null)
-                      ? () {
-                          context
-                              .read<ActorInfoCubit>()
-                              .getActorPersonalInfo(actors[index]['id']);
-                          Navigator.of(context).push(MaterialPageRoute<void>(
-                              builder: (context) => const ActorDetailsPage()));
-                        }
-                      : () {},
-                  height: 120,
-                  width: 200,
-                ),
-                ListTile(
-                  trailing: Icon(
-                      actors[index]['gender'] == 2 ? Icons.male : Icons.female),
-                  title: ModifiedText(
-                    text: (actors[index]['name']) ?? 'Unknown actor',
-                    size: 19,
+      body: BlocProvider<ActorsListCubit>(
+        create: (_) => ActorsListCubit(getIt.get<DataService>())
+          ..getActorsList(movieId: movieId),
+        child: BlocBuilder<ActorsListCubit, List>(builder: (context, actors) {
+          return GridView.builder(
+            itemCount: actors.length,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  SizedBox(
+                    height: 120,
+                    child: (actors[index]['profile_path'] != null)
+                        ? PhotoHero(
+                            photo: (baseUrlForImages +
+                                actors[index]['profile_path']),
+                            onTap: () =>
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ActorDetailsScreen(
+                                          personId: (actors[index]['id']),
+                                          posterPath: actors[index]
+                                              ['profile_path'],
+                                        ))),
+                            width: 200,
+                          )
+                        : Image.network(unknownActorPhoto),
                   ),
-                  onTap: () {
-                    context
-                        .read<ActorInfoCubit>()
-                        .getActorPersonalInfo(actors[index]['id']);
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => const ActorDetailsPage()));
-                  },
-                ),
-              ],
-            );
-          },
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2),
-        );
-      }),
+                  ListTile(
+                    trailing: Icon(actors[index]['gender'] == 2
+                        ? Icons.male
+                        : Icons.female),
+                    title: ModifiedText(
+                      text:
+                          (actors[index]['name']) ?? S.of(context).unknownActor,
+                      size: ModifiedTextFontSize.medium,
+                    ),
+                  ),
+                ],
+              );
+            },
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2),
+          );
+        }),
+      ),
     );
   }
 }

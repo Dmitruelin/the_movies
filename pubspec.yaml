@@ -20,14 +20,10 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.15.1 <3.0.0"
 
-# Dependencies specify other packages that your package needs in order to work.
-# To automatically upgrade your package dependencies to the latest versions
-# consider running `flutter pub upgrade --major-versions`. Alternatively,
-# dependencies can be manually updated by changing the version numbers below to
-# the latest version available on pub.dev. To see which dependencies have newer
-# versions available, run `flutter pub outdated`.
 dependencies:
   flutter:
+    sdk: flutter
+  flutter_localizations:
     sdk: flutter
 
 
@@ -38,21 +34,29 @@ dependencies:
   equatable: ^2.0.3
   google_fonts: ^2.2.0
   json_serializable: ^6.1.4
-  http: ^0.13.4
   freezed_annotation: ^1.1.0
+  floor: ^1.2.0
+  get_it: any
+  provider: any
+  json_annotation: any
+  intl: any
+  dio: ^4.0.4
+
+
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^2.1.7
-  freezed: ^1.1.1
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
+  freezed: any
+  floor_generator: ^1.2.0
+  integration_test:
+    sdk: flutter
+  test: ^1.14.4
+  mocktail: any
   flutter_lints: ^1.0.0
+  network_image_mock: any
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -94,3 +98,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true

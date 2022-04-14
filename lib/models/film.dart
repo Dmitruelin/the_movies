@@ -1,10 +1,15 @@
-class Films {
-  final String? name, description, launchOn, bannerPath, posterPath;
-  final int? movieId;
-  bool isActorsNeed = false;
+import 'package:floor/floor.dart';
 
-  Films({
-    this.movieId,
+@entity
+class Film {
+  @PrimaryKey(autoGenerate: true)
+  final int? id;
+  final int movieId;
+  final String? name, description, launchOn, bannerPath, posterPath;
+
+  Film({
+    required this.movieId,
+    this.id,
     this.description,
     this.bannerPath,
     this.posterPath,
@@ -12,14 +17,14 @@ class Films {
     this.name,
   });
 
-  factory Films.fromJson(Map<String, dynamic> json) {
+  factory Film.fromJson(Map<String, dynamic> json) {
     final name = json['title'];
     final movieId = json['id'];
     final launchOn = json['release_date'];
     final description = json['overview'];
     final bannerPath = json['backdrop_path'];
     final posterPath = json['poster_path'];
-    return Films(
+    return Film(
       name: name,
       movieId: movieId,
       launchOn: launchOn,
@@ -38,5 +43,10 @@ class Films {
     data['bannerPath'] = bannerPath;
     data['posterPath'] = posterPath;
     return data;
+  }
+
+  @override
+  String toString() {
+    return (name!);
   }
 }

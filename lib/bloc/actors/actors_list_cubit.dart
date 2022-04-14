@@ -8,6 +8,6 @@ class ActorsListCubit extends Cubit<List> {
 
   ActorsListCubit(this._dataService) : super([]);
 
-  void getActorsList(int movieId) async =>
-      emit(await dataService.getActorsList(movieId));
+  void getActorsList({required int movieId}) async =>
+      emit(await _dataService.getActorsList(movieId));
 }

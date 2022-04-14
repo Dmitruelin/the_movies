@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:the_movies/bloc/actors/actors_list_cubit.dart';
-import 'package:the_movies/models/films.dart';
+import 'package:the_movies/models/film.dart';
 import 'package:the_movies/navigation/navigation_cubit.dart';
-import 'package:the_movies/utils/credentials.dart';
+import 'package:the_movies/utils/constants.dart';
 import 'package:the_movies/utils/modified_text.dart';
 
-class Description extends StatelessWidget {
-  final Films film;
+import '../generated/l10n.dart';
 
-  const Description({
+class DescriptionScreen extends StatelessWidget {
+  final Film film;
+
+  const DescriptionScreen({
     Key? key,
     required this.film,
   }) : super(key: key);
@@ -18,98 +19,96 @@ class Description extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Details of ${film.name}'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        title: Text('$film'),
         centerTitle: true,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(
-            child: Stack(
-              children: [
-                Positioned(
-                  child: SizedBox(
-                    height: 300,
-                    width: MediaQuery.of(context).size.width,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            buildStack(context),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  ModifiedText(
+                    text: S.of(context).overview,
+                    size: ModifiedTextFontSize.large,
+                    color: Colors.cyan,
                   ),
-                ),
-                Positioned(
-                  child: SizedBox(
-                    height: 221,
-                    width: MediaQuery.of(context).size.width,
-                    child: Image.network(baseUrlForImages + film.bannerPath!),
+                  ModifiedText(
+                    text: film.description!,
+                    size: ModifiedTextFontSize.small,
                   ),
-                ),
-                Positioned(
-                    left: 10,
-                    bottom: 0,
-                    child: SizedBox(
-                      height: 150,
-                      child: Hero(
-                          tag: 'poster-image',
-                          child: Image.network(
-                              baseUrlForImages + film.posterPath!)),
-                    )),
-                Positioned(
-                  child: SizedBox(
-                    width: 250,
-                    child: ModifiedText(
-                      text: 'Title: ' + film.name!,
-                      size: 18,
-                    ),
-                  ),
-                  bottom: 35,
-                  right: 10,
-                ),
-                Positioned(
-                  child: SizedBox(
-                    width: 250,
-                    child: ModifiedText(
-                      text: 'Starts on: ' + film.launchOn!,
-                      size: 18,
-                    ),
-                  ),
-                  bottom: 10,
-                  right: 10,
-                ),
-              ],
+                  verticalIndent(),
+                  ElevatedButton(
+                      child: ModifiedText(
+                        text: S.of(context).actorsList,
+                        size: ModifiedTextFontSize.medium,
+                      ),
+                      onPressed: () {
+                        context
+                            .read<NavigationCubit>()
+                            .goToActorsPage(film.movieId, film);
+                      }),
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                const ModifiedText(
-                  text: 'Overview',
-                  size: 24,
-                  color: Colors.cyan,
-                ),
-                ModifiedText(
-                  text: film.description!,
-                  size: 16,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                ElevatedButton(
-                    child: const ModifiedText(
-                      text: 'Actors list',
-                      size: 16,
-                    ),
-                    onPressed: () {
-                      context
-                          .read<ActorsListCubit>()
-                          .getActorsList(film.movieId!);
-                      context
-                          .read<NavigationCubit>()
-                          .goToActorsPage(movieId: film.movieId!);
-                    }),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget buildStack(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned(
+          child: SizedBox(
+            height: 300,
+            width: MediaQuery.of(context).size.width,
+          ),
+        ),
+        Positioned(
+          child: SizedBox(
+            height: 221,
+            width: MediaQuery.of(context).size.width,
+            child: Image.network(baseUrlForImages + film.bannerPath!),
+          ),
+        ),
+        Positioned(
+            left: 10,
+            bottom: 0,
+            child: SizedBox(
+              height: 150,
+              child: Image.network(baseUrlForImages + film.posterPath!),
+            )),
+        Positioned(
+          child: SizedBox(
+            width: 250,
+            child: ModifiedText(
+              text: S.of(context).filmTitle + film.name!,
+              size: 18,
+            ),
+          ),
+          bottom: 35,
+          right: 10,
+        ),
+        Positioned(
+          child: SizedBox(
+            width: 250,
+            child: ModifiedText(
+              text: S.of(context).startsOn + film.launchOn!,
+              size: 18,
+            ),
+          ),
+          bottom: 10,
+          right: 10,
+        ),
+      ],
     );
   }
 }
