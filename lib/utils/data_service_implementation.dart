@@ -9,7 +9,7 @@ import 'credentials.dart';
 
 class DataServiceImplementation implements DataService {
   final Dio dio = Dio();
-  static const queryParameters = {
+  static  Map<String, String> queryParameters = {
     'api_key': apiKey,
   };
 
@@ -29,11 +29,12 @@ class DataServiceImplementation implements DataService {
   }
 
   @override
-  Future<List<Film>> getNowPlayingFilms() async {
+  Future<List<Film>> getNowPlayingFilms(String locale) async {
     int randomIntForPageInQuery = Random().nextInt(10) + 1;
     final uri = Uri.https('api.themoviedb.org', '/3/movie/now_playing', {
       'api_key': apiKey,
       'page': randomIntForPageInQuery.toString(),
+      'language' : locale,
     });
 
     final response = await dio.postUri(uri);
@@ -50,9 +51,12 @@ class DataServiceImplementation implements DataService {
   }
 
   @override
-  Future<List<Film>> getPopularFilms() async {
+  Future<List<Film>> getPopularFilms(String locale) async {
     final uri =
-        Uri.https('api.themoviedb.org', '/3/movie/popular', queryParameters);
+        Uri.https('api.themoviedb.org', '/3/movie/popular', {
+          'api_key': apiKey,
+          'language' : locale,
+        });
     final response = await dio.getUri(uri);
 
     if (response.statusCode != 200) {

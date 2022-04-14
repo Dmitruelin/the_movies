@@ -80,10 +80,10 @@ class S {
     );
   }
 
-  /// `Starts on`
+  /// `Starts on : `
   String get startsOn {
     return Intl.message(
-      'Starts on',
+      'Starts on : ',
       name: 'startsOn',
       desc: '',
       args: [],
@@ -100,10 +100,10 @@ class S {
     );
   }
 
-  /// `Title is`
+  /// `Title is : `
   String get filmTitle {
     return Intl.message(
-      'Title is',
+      'Title is : ',
       name: 'filmTitle',
       desc: '',
       args: [],

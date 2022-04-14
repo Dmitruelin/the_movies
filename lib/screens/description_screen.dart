@@ -19,7 +19,9 @@ class DescriptionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${film.name}'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        title: Text('$film'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -29,31 +31,32 @@ class DescriptionScreen extends StatelessWidget {
           children: [
             buildStack(context),
             Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    ModifiedText(
-                      text: S.of(context).overview,
-                      size: ModifiedTextFontSize.large,
-                      color: Colors.cyan,
-                    ),
-                    ModifiedText(
-                      text: film.description!,
-                      size: ModifiedTextFontSize.small,
-                    ),
-                    verticalIndent(),
-                    ElevatedButton(
-                        child: ModifiedText(
-                          text: S.of(context).actorsList,
-                          size: ModifiedTextFontSize.medium,
-                        ),
-                        onPressed: () {
-                          context
-                              .read<NavigationCubit>()
-                              .goToActorsPage(film.movieId, film);
-                        }),
-                  ],
-                )),
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  ModifiedText(
+                    text: S.of(context).overview,
+                    size: ModifiedTextFontSize.large,
+                    color: Colors.cyan,
+                  ),
+                  ModifiedText(
+                    text: film.description!,
+                    size: ModifiedTextFontSize.small,
+                  ),
+                  verticalIndent(),
+                  ElevatedButton(
+                      child: ModifiedText(
+                        text: S.of(context).actorsList,
+                        size: ModifiedTextFontSize.medium,
+                      ),
+                      onPressed: () {
+                        context
+                            .read<NavigationCubit>()
+                            .goToActorsPage(film.movieId, film);
+                      }),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -87,7 +90,7 @@ class DescriptionScreen extends StatelessWidget {
           child: SizedBox(
             width: 250,
             child: ModifiedText(
-              text: S.of(context).filmTitle + " : " + film.name!,
+              text: S.of(context).filmTitle + film.name!,
               size: 18,
             ),
           ),
@@ -98,7 +101,7 @@ class DescriptionScreen extends StatelessWidget {
           child: SizedBox(
             width: 250,
             child: ModifiedText(
-              text: S.of(context).startsOn + " : " + film.launchOn!,
+              text: S.of(context).startsOn + film.launchOn!,
               size: 18,
             ),
           ),

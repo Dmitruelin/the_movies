@@ -29,12 +29,11 @@ class FilmsList extends StatelessWidget {
                       .read<NavigationCubit>()
                       .goToDescriptionPage(filmsList[index]),
                   child: Card(
-                    margin: const EdgeInsets.symmetric(horizontal: 28),
-                    elevation: 20,
-                    shadowColor: Colors.amberAccent,
-                    child: Image.network(
-                        baseUrlForImages + filmsList[index].posterPath!),
-                  ),
+                      margin: const EdgeInsets.symmetric(horizontal: 28),
+                      elevation: 20,
+                      shadowColor: Colors.amberAccent,
+                      child: Image.network(
+                          baseUrlForImages + filmsList[index].posterPath!)),
                 );
               }),
         ),

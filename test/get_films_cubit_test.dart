@@ -17,12 +17,11 @@ void main() {
 
   group('Get films ', () {
     test('using DataService and calling method only once', () {
-      when(() => mockDataService.getNowPlayingFilms())
+      when(() => mockDataService.getNowPlayingFilms('en-US'))
           .thenAnswer((_) => <Film>[]);
-      when(() => mockDataService.getPopularFilms()).thenAnswer((_) => <Film>[]);
-      sut.getFilms();
-      verify(() => mockDataService.getNowPlayingFilms()).called(1);
-      verifyNever(() => mockDataService.getPopularFilms());
+      sut.getFilms('en-US');
+      verify(() => mockDataService.getNowPlayingFilms('en-US')).called(1);
+      verifyNever(() => mockDataService.getPopularFilms('en-US'));
     });
   });
 }

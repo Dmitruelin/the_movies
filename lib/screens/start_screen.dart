@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:the_movies/bloc/get_films/get_now_playing_films_cubit.dart';
+import 'package:the_movies/bloc/get_films/get_popular_films_cubit.dart';
 import 'package:the_movies/utils/constants.dart';
 import 'package:the_movies/widgets/films_list.dart';
 import 'package:the_movies/widgets/popular_films.dart';
@@ -143,12 +145,16 @@ class _StartScreenState extends State<StartScreen> {
     if (isEnglish) {
       setState(() {
         S.load(const Locale("ru", "RU"));
-        isEnglish = !isEnglish;
+        isEnglish = false;
+        context.read<GetFilmsCubit>().getFilms('ru-RU');
+        context.read<GetPopularFilms>().getPopularFilms('ru-RU');
       });
     } else {
       setState(() {
         S.load(const Locale("en", "US"));
         isEnglish = true;
+        context.read<GetFilmsCubit>().getFilms('en-US');
+        context.read<GetPopularFilms>().getPopularFilms('en-US');
       });
     }
   }
